@@ -14,7 +14,7 @@ import { rhythm } from "../utils/typography";
 const Bio = () => {
   const data = useStaticQuery(graphql`
     query BioQuery {
-      avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
+      avatar: file(absolutePath: { regex: "/profile-pic.png/" }) {
         childImageSharp {
           fixed(width: 50, height: 50) {
             ...GatsbyImageSharpFixed
@@ -35,12 +35,14 @@ const Bio = () => {
     }
   `);
 
-  const { author, social } = data.site.siteMetadata;
+  const { author } = data.site.siteMetadata;
+  const helpBioAppearCenteredUnderSiteTitle = '1rem';
   return (
     <div
       style={{
         display: `flex`,
-        marginBottom: rhythm(2.5),
+        marginBottom: rhythm(1.5),
+        marginLeft: helpBioAppearCenteredUnderSiteTitle,
       }}
     >
       <Image
@@ -59,7 +61,7 @@ const Bio = () => {
       <p>
         {author.summary}
         {` `}
-        <a href={`https://twitter.com/${social.twitter}`}>@{social.twitter}</a>
+        <a href="https://github.com/paltamadura">GitHub</a> | <a href="https://www.linkedin.com/in/david-good-5b652a1a/">LinkedIn</a> | <a href="https://twitter.com/palta_madura">Twitter</a>
       </p>
     </div>
   );

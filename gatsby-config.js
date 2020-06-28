@@ -1,9 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `David A. Good`,
+    title: `David A Good`,
     author: {
       name: `David A. Good`,
-      summary: `Software engineer crafting full-stack, cloud-native solutions for enterprise`,
+      summary: `Software engineer crafting full-stack, cloud-native solutions for enterprise.`,
     },
     description: `David A. Good's personal website, blog, etc.`,
     siteUrl: `https://github.com/paltamadura/davidagood.com`,
@@ -12,6 +12,13 @@ module.exports = {
     },
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: `UA-131574328-1`,
+        head: true,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -50,12 +57,6 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
-      },
-    },
     `gatsby-plugin-feed`,
     {
       resolve: `gatsby-plugin-manifest`,
