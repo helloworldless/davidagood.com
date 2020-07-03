@@ -5,6 +5,7 @@ import Bio from "../components/bio";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
+import { MdLaunch } from "react-icons/md";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
@@ -37,14 +38,24 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             {post.frontmatter.date}
           </p>
         </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
+        {post.frontmatter.isExternal
+          ? <section>
+            <div style={{ marginBottom: rhythm(0.5) }}>
+              <a style={{ boxShadow: `none` }} href={post.frontmatter.externalUrl}>
+                <span>{post.frontmatter.title} <MdLaunch/></span>
+              </a>
+            </div>
+            <p>{post.frontmatter.description}</p>
+          </section>
+          : <section dangerouslySetInnerHTML={{ __html: post.html }}/>
+        }
         <hr
           style={{
             marginBottom: rhythm(1),
           }}
         />
         <footer>
-          <Bio />
+          <Bio/>
         </footer>
       </article>
 
