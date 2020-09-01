@@ -11,6 +11,9 @@ Wordpress2016.overrideThemeStyles = () => {
     },
     hr: {
       backgroundColor: 'rgba(255, 255, 255, 0.1)'
+    },
+    blockquote: {
+      color: 'rgba(255, 255, 255, 0.7)'
     }
   };
 };
