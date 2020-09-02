@@ -9,6 +9,9 @@ phases:
     build:
         commands:
             - 'npm run build'
+    post_build:        
+        commands:            
+            - 'aws s3 rm s3://davidagood.com --recursive'
 artifacts:
     base-directory: public
     files:
