@@ -36,7 +36,7 @@ The wrong questions to be asking in 2020 are:
 
 The right question is:
 
-> Why do developers still turn to servers and containers even though they’re complicated, even though they’re expensive, even though they’re difficult to own, operate, and maintain?”
+> Why do developers still turn to servers and containers even though they’re complicated, even though they’re expensive, even though they’re difficult to own, operate, and maintain?
 
 And the answer is:
 
