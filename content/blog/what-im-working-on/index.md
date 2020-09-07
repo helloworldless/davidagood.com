@@ -1,10 +1,10 @@
 ---
 title: "What I'm Working On"
 date: "2020-09-06T23:00:20.829Z"
-description: "What I'm currently working on: projects, learning, open source, etc."
+description: "What I'm currently working on: personal projects, learning, open source, etc."
 ---
 
-_What I'm currently working on: projects, learning, open source, etc._
+_What I'm currently working on: personal projects, learning, open source, etc._
 
 # Current
 
