@@ -25,10 +25,9 @@ _What I'm currently working on: personal projects, learning, open source, etc._
 
 - Basic CI/CD pipeline (deploy on commit) for davidagood.com
     - Uses AWS CodeBuild and CodePipeline
-    - Follow-up: wiping S3 bucket contents is currently a post-build step
-       rather than its own step in the pipeline. Looking at Step Functions or just adding a Code Pipeline
-      step which calls a lambda.
-    - Also need to add CloudFront cache invalidation as part of the pipeline
+    - Completed follow-ups:
+        - Wipe S3 bucket via Lambda instead of in CodeBuild buildspec post-build step
+        - Invalidate CloudFront distribution via Lambda invalidation as part of the pipeline
 - [Twitter Unfollower Alerts](https://github.com/helloworldless/twitter-unfollower-alerts)
     - Plenty of follow-ups mentioned in the readme
     
