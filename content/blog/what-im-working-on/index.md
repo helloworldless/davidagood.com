@@ -6,14 +6,14 @@ description: "What I'm currently working on: personal projects, learning, open s
 
 _What I'm currently working on: personal projects, learning, open source, etc._
 
-# Current
+# In Progress
 
 - Reading the [Rust Book](https://doc.rust-lang.org/book/) in its entirety
 - Spring Boot OSS: [Sanitize entire value if property is not of URI type #23037](https://github.com/spring-projects/spring-boot/issues/23037)
+- Tomasz Łakomy's Egghead course [Build an App with the AWS Cloud Development Kit](https://egghead.io/courses/build-an-app-with-the-aws-cloud-development-kit)
 
 # Up Next
 
-- Tomasz Łakomy's Egghead course [Build an App with the AWS Cloud Development Kit](https://egghead.io/courses/build-an-app-with-the-aws-cloud-development-kit)
 - Systems Programming with Rust
     - Specifically looking at [this guide](https://github.com/pingcap/talent-plan), the PingCAP Talent Plan
 - DynamoDB single table design, streams, etc.
