@@ -8,9 +8,8 @@ _What I'm currently working on: personal projects, learning, open source, etc._
 
 # In Progress
 
-- Reading the [Rust Book](https://doc.rust-lang.org/book/) in its entirety
-- Spring Boot OSS: [Sanitize entire value if property is not of URI type #23037](https://github.com/spring-projects/spring-boot/issues/23037)
 - Tomasz Łakomy's Egghead course [Build an App with the AWS Cloud Development Kit](https://egghead.io/courses/build-an-app-with-the-aws-cloud-development-kit)
+- Reading the [Rust Book](https://doc.rust-lang.org/book/) in its entirety
 
 # Up Next
 
@@ -20,14 +19,18 @@ _What I'm currently working on: personal projects, learning, open source, etc._
     - [DynamoDB Office Hours | Online banking service model with Rick Houlihan](https://www.twitch.tv/videos/689452191)
     - [Alex DeBrie](https://www.alexdebrie.com/) resources
     - [Building aggregations with DynamoDB Streams](https://acloudguru.com/blog/engineering/building-aggregations-with-dynamodb-streams)
+- Set up a simple landing page for helloworldless.com
+    - Ideally, I'd like to see how far I can push infrastructure-as-code using AWS CDK for DNS, static hosting, and continuous integration, all in one repository
 
 # Completed
 
+- Spring Boot Open Source Contribution
+    - [Improve sanitization for list of URI types](https://github.com/spring-projects/spring-boot/commit/775f0fa8613c5360bac2159f4c45089733049587)
 - Basic CI/CD pipeline (deploy on commit) for davidagood.com
     - Uses AWS CodeBuild and CodePipeline
     - Completed follow-ups:
         - Wipe S3 bucket via Lambda instead of in CodeBuild buildspec post-build step
-        - Invalidate CloudFront distribution via Lambda invalidation as part of the pipeline
+        - Invalidate CloudFront distribution via Lambda as part of the pipeline
 - [Twitter Unfollower Alerts](https://github.com/helloworldless/twitter-unfollower-alerts)
     - Plenty of follow-ups mentioned in the readme
     
