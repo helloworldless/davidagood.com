@@ -43,7 +43,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/paltamadura/davidagood.com.git"
+    "url": "git+https://github.com/helloworldless/davidagood.com.git"
   },
   "scripts": {
     "build": "gatsby build",
