@@ -61,7 +61,7 @@ const Bio = () => {
       <p>
         {author.summary}
         {` `}
-        <a href="https://github.com/paltamadura">GitHub</a> | <a href="https://www.linkedin.com/in/david-good-5b652a1a/">LinkedIn</a> | <a href="https://twitter.com/palta_madura">Twitter</a>
+        <a href="https://github.com/helloworldless">GitHub</a> | <a href="https://www.linkedin.com/in/david-good-5b652a1a/">LinkedIn</a> | <a href="https://twitter.com/helloworldless">Twitter</a>
       </p>
     </div>
   );

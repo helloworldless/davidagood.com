@@ -6,9 +6,9 @@ module.exports = {
       summary: `Software engineer crafting full-stack, cloud-native solutions for enterprise.`,
     },
     description: `David A. Good's personal website, blog, etc.`,
-    siteUrl: `https://github.com/paltamadura/davidagood.com`,
+    siteUrl: `https://github.com/helloworldless/davidagood.com`,
     social: {
-      twitter: `palta_madura`,
+      twitter: `helloworldless`,
     },
   },
   plugins: [
