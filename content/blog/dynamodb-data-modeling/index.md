@@ -31,3 +31,16 @@ Creating a {Entity}ItemCollection value class
 How should updates to multiple entities in an item collection be handled? 
 Presumably with a batch transaction, or should updates to multiple entities in an 
 item collection be avoided entirely?
+
+## Different SDKs
+
+Beware of different SDKs especially when researching issues, e.g. before digging 
+into documentation, check which SDK or which version it is for.
+
+For example, for Java there are many SDKS and other official libraries: 
+
+- Java SDK v1
+- Java SDK v2
+- DynamoDBMapper
+
+Also, transactional operations have their own classes, like `Get` and `Put`
