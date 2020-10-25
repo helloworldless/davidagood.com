@@ -37,10 +37,14 @@ item collection be avoided entirely?
 Beware of different SDKs especially when researching issues, e.g. before digging 
 into documentation, check which SDK or which version it is for.
 
-For example, for Java there are many SDKS and other official libraries: 
+For example, for NodeJS and Python, there are older, lower-level SDKs which require you 
+to write DynamoDB JSON, like `{'Name': {'S': 'Jack}}`,  and a newer SDK which takes 
+care of the datatype "wrapping" for you so you can just write: `{'Name': 'Jack'}`
+
+Also, for Java there are many SDKS and other official libraries: 
 
 - Java SDK v1
 - Java SDK v2
 - DynamoDBMapper
 
-Also, transactional operations have their own classes, like `Get` and `Put`
+Watch out for transactional operations as well. They have their own classes, like `Get` and `Put`
