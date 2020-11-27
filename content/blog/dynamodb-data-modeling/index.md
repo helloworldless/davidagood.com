@@ -8,6 +8,19 @@ from working with DynamoDB, specifically with Java"
 _This is a work in progress (digital garden style!): open questions, 
 lessons learned, tips, etc. from working with DynamoDB, specifically with Java._
 
+# AWS SDK v2 Java
+
+## Feature Requests
+
+- [DynamoDB Enhanced Client: Support Querying and Marshalling Heterogeneous Item Collections](https://github.com/aws/aws-sdk-java-v2/issues/2151)
+    - Once I understand the SDK codebase better, I would ideally like to contribute this myself
+- [DynamoDB Enhanced Client: Provide JSON Attribute Converter Out of the Box](https://github.com/aws/aws-sdk-java-v2/issues/2162)
+    - Working on this myself
+- [Enhanced DynamoDB annotations are incompatible with Lombok](https://github.com/aws/aws-sdk-java-v2/issues/1932#issuecomment-733174524)
+    - Specifically, I added onto this features request to support derived fields on immutable value class entities
+
+# Other
+
 How big is too big for an item collection?
 
 One to many-to-many - remodel as one-to-one + one-to-many, 
