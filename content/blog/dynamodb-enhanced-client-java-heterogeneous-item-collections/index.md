@@ -209,3 +209,5 @@ Result of query item collection: CustomerItemCollection{
       ]
 }
 ```
+
+See the full code from these examples on [GitHub](https://github.com/helloworldless/dynamodb-java-sdk-v2).
