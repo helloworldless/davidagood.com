@@ -50,9 +50,15 @@ public class App {
     }
 
     public App() {
-        this.dynamoDbClient = DynamoDbClient.builder().region(Region.US_EAST_1).build();
-        this.dynamoDbEnhancedClient = DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
-        this.customerTable = dynamoDbEnhancedClient.table("MyTable", TableSchema.fromClass(Customer.class));
+        this.dynamoDbClient = DynamoDbClient.builder()
+                .region(Region.US_EAST_1)
+                .build();
+        this.dynamoDbEnhancedClient = DynamoDbEnhancedClient.builder()
+                .dynamoDbClient(dynamoDbClient)
+                .build();
+        this.customerTable = 
+                dynamoDbEnhancedClient.table(
+                        "MyTable", TableSchema.fromClass(Customer.class));
     }
 
     public void saveCustomer(Customer customer) {
