@@ -1,55 +1,14 @@
 ---
-title: Using DynamoDB with Java
+title: DynamoDB Enhanced Client for Java: Missing Setters Cause Misleading Error or Unexpected Behavior 
 date: "2020-12-01T01:30:00.000Z"
-description: "A work in progress: open questions, lessons learned, tips, etc. 
-from working with DynamoDB and Java"
+description: "The AWS SDK v2 for Java's DynamoDB Enhanced Client requires setters for every attribute. Missing the 
+setter for a given attribute may cause a misleading exception or the attribute being silently ignored."
 ---
-
-_This is a work in progress (digital garden style!): open questions, 
-lessons learned, tips, etc. from working with DynamoDB, specifically with Java._
-
-# Different SDKs
-
-Below are the official SDKs and clients available for Java. Beware of 
-different SDKs especially when researching issues, e.g. before digging 
-into documentation, check which SDK or which version it is for.
- 
-- AWS SDK for Java v2
-    - [GitHub](https://github.com/aws/aws-sdk-java-v2)
-    - [AWS SDK for Java 2.x Developer Guide](https://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/welcome.html)
-- Enhanced Client for v2 SDK
-    - [GitHub](https://github.com/aws/aws-sdk-java-v2/tree/master/services-custom/dynamodb-enhanced)
-- AWS SDK for Java v1
-    - [GitHub](https://github.com/aws/aws-sdk-java)
-    - [Set up the AWS SDK for Java](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-install.html)
-- DynamoDBMapper for v1 SDK
-    - [Developer Guide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.html)
-    - [GitHub](https://github.com/aws/aws-sdk-java/blob/master/aws-java-sdk-dynamodb/src/main/java/com/amazonaws/services/dynamodbv2/datamodeling/DynamoDBMapper.java)
-
-Watch out for transactional operations as well. They have their own classes, like `Get` and `Put`
-
-Just as with Java, NodeJS and Python have older, lower-level SDKs which require you 
-to write DynamoDB JSON, like `{'Name': {'S': 'Jack}}`, and newer SDKs which take 
-care of the datatype "wrapping" for you so you can just write: `{'Name': 'Jack'}`
-
-# AWS SDK v2 Java
-
-## Feature Requests
-
-- [DynamoDB Enhanced Client: Support Querying and Marshalling Heterogeneous Item Collections](https://github.com/aws/aws-sdk-java-v2/issues/2151)
-    - Once I understand the SDK codebase better, I would ideally like to contribute this myself
-- [DynamoDB Enhanced Client: Provide JSON Attribute Converter Out of the Box](https://github.com/aws/aws-sdk-java-v2/issues/2162)
-    - Working on this myself
-- [Enhanced DynamoDB annotations are incompatible with Lombok](https://github.com/aws/aws-sdk-java-v2/issues/1932#issuecomment-733174524)
-    - Specifically, I added onto this feature request to support derived fields on immutable value class entities
-    
-## Gotchas
-
-### Missing Setters on @DynamoDbBean
 
 In order for the AWS SDK v2 for Java's Enhanced Client to detect an attribute on a `@DynamoDbBean`, the field 
 must have a setter. In other words, just having a getter is not enough, even for derived attributes. This may 
-or may not be obvious, but forgetting the setters results in a cryptic error as we will see below.
+or may not be obvious, but forgetting the setter for an attribute can result in a misleading error, or the attribute 
+being silently ignored as we will see below.
 
 For example, consider this DynamoDB bean:
 
@@ -103,7 +62,7 @@ public class App {
 }
 ```
 
-Running this code with fail with the following cryptic error:
+Running this code with fail with the following error:
 
 ```text
 java.lang.IllegalArgumentException: Attempt to execute an operation that requires a primary index without defining any primary key attributes in the table metadata.
@@ -193,3 +152,43 @@ this.customerTable = {DefaultDynamoDbTable@4381}
       "PK" -> {StaticKeyAttributeMetadata@4423} 
       "SK" -> {StaticKeyAttributeMetadata@4425} 
 ```
+
+But that's not all. Suppose you don't add a setter for a non-primary key attribute, say, a derived attribute like Type:
+
+```java
+@DynamoDbBean
+@Data
+public class Customer {
+
+    // Primary key attributes omitted
+  
+    @DynamoDbAttribute("Type")
+    public String getType() {
+        return "Customer";
+    }
+
+}
+```
+
+In this case, the SDK will silently ignore the Type attribute, and it will not be persisted at all. Just like we saw
+above, to fix this, we must add a complimentary setter for every attribute, even for derived attributes where the
+setter does nothing:
+
+```java
+@DynamoDbBean
+@Data
+public class Customer {
+
+    // Primary key attributes omitted
+  
+    @DynamoDbAttribute("Type")
+    public String getType() {
+        return "Customer";
+    }
+
+    public void setType(String type) {
+      // Do nothing, this is a derived attribute
+    }
+}
+```
+
