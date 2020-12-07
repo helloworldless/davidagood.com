@@ -1,5 +1,5 @@
 ---
-title: DynamoDB Enhanced Client for Java: Missing Setters Cause Misleading Error or Unexpected Behavior 
+title: "DynamoDB Enhanced Client for Java: Missing Setters Cause Misleading Error or Unexpected Behavior" 
 date: "2020-12-01T01:30:00.000Z"
 description: "The AWS SDK v2 for Java's DynamoDB Enhanced Client requires setters for every attribute. Missing the 
 setter for a given attribute may cause a misleading exception or the attribute being silently ignored."
