@@ -6,13 +6,15 @@ them with the AWS SDK v2 for Java's Enhanced Client."
 ---
 
 Item collections are a core concept in DynamoDB, especially for "well-designed" applications using a single table 
-design. However, this concept doesn't exactly have first class support in the SDKs. In this post, I demonstrate a 
+design. However, this concept doesn't have first class support in the SDKs. In this post, I demonstrate a 
 strategy for querying heterogeneous item collections with the 
 [AWS SDK v2 for Java's Enhanced Client](https://github.com/aws/aws-sdk-java-v2/tree/master/services-custom/dynamodb-enhanced).
 
-_**Note:** An item collection refers to all the items with the same partition key._
+## Item Collection Data Model
 
-Let's say we have an item collection formed of a customer and their orders:
+Here's an item collection formed of a customer and their orders. This is the main dataset we will use 
+throughout this post. I've explained the details of this single-table data model 
+[here](https://www.davidagood.com/dynamodb-data-modeling/).
 
 PK | SK | Type | CustomerId | OrderId
 ---|----|------|------------|--------
@@ -21,32 +23,9 @@ CUSTOMER#123|#ORDER#2020-12-01|Order|123|2020-12-01
 CUSTOMER#123|#ORDER#2020-12-06|Order|123|2020-12-06
 CUSTOMER#123|A|Customer|123|
 
-## Observations
+## Access Patterns
 
-- The primary keys (partition key and sort key), use generic names, `PK` and `SK`, as they may be overloaded with various 
-  types of values as we will see below
-- We use a composite partition key and a composite sort key
-    - Example: PK = CUSTOMER#{CustomerId}
-    - Examlpe: SK = #ORDER#{OrderId}
-- For the customer item, we use sort key of `A` to refer to the customer's primary record, or "A record"
-    - This is an example of overloading the sort key: the sort key may either pertain to an 
-      order or a customer
-- Each item has a `Type` attribute. This is a good practice, and it is <u>required for this item collection querying strategy</u>
-- We need the `OrderId` to be unique as well as chronologically sortable in order to support access pattern #3 below. 
-  For simplicity, we use a date string in ISO format (e.g. 2020-12-06) rather than using a proper ordered 
-  identifier like a KSUID or ULID. Read more about these here: 
-  [Leveraging ULIDs to create order in unordered datastores](https://www.trek10.com/blog/leveraging-ulids-to-create-order-in-unordered-datastores).
-- In order to support access pattern #3, we prefix the sort key for orders with `#`. By prefixing an order's 
-  sort key with `#`, we ensure that the customer sort key `A` comes lexicographically last, after
-  all of the order items' sort keys. Given this, we can tell DynamoDB to read items from "bottom to top" and access the customer
-  along with their most recent N orders. So in our table of example data above, we start with the
-  customer item (SK = `A`), the last row in the table, and then work our way upwards to the order with `SK=#ORDER#2020-12-06`,
-  then to the order with `SK=#ORDER#2020-12-01`, and finally to the first row in the table, the order
-  with `SK=#ORDER#2020-11-25`. If we only want the cusomter and their most
-  recent order, we use `ScanForward=False` together with `Limit=2` (one customer item plus one order item for a 
-  total of two items).
-
-This data model supports the follow access patterns:
+The data model shown above supports the following access patterns:
 
 1. Get customer by id
 1. Get customer and all their orders
