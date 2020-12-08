@@ -16,12 +16,14 @@ Here's an item collection formed of a customer and their orders. This is the mai
 throughout this post. I've explained the details of this single-table data model 
 [here](https://www.davidagood.com/dynamodb-data-modeling/).
 
-PK | SK | Type | CustomerId | OrderId
+PK | SK | Type | CustomerId | OrderId*
 ---|----|------|------------|--------
 CUSTOMER#123|#ORDER#2020-11-25|Order|123|2020-11-25
 CUSTOMER#123|#ORDER#2020-12-01|Order|123|2020-12-01
 CUSTOMER#123|#ORDER#2020-12-06|Order|123|2020-12-06
 CUSTOMER#123|A|Customer|123|
+
+*We use an ISO-formatted date as a simple, chronologically ordered identifier
 
 ## Access Patterns
 
@@ -66,7 +68,7 @@ breaks down with heterogeneous item collections where we want to query various t
 we handle this with the Enhanced Client?
 
 For starters, we will need a `DynamoDbTable` for each entity in the item collection 
-even though all the items are in the same table:
+_even though all the items are in the same DynamoDB table_:
 
 ```java
 DynamoDbTable<Customer> customerTable = 
