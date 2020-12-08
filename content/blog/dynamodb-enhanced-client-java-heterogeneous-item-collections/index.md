@@ -164,7 +164,7 @@ Here's how we use it:
 
 ```java
 CustomerItemCollection customerItemCollection =
-        app.getCustomerAndRecentOrders(CUSTOMER_ID, 1)
+        app.getCustomerAndRecentOrders("123", 1)
 System.out.println("Result of query item collection: " + 
         customerItemCollection);
 ```
