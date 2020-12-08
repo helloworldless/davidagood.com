@@ -33,8 +33,8 @@ The data model shown above supports the following access patterns:
 1. Get just the orders for a customer
    
 We will focus on #3. We will use a DynamoDB `Query` to get the customer and their most recent order in a single request. 
-The challenge here is not with querying the item collection but with marshalling the resulting heterogeneous items 
-into their respective entity value classes.
+The challenge here is not with querying the item collection but with marshalling the resulting items 
+into their respective value classes.
 
 That is because the Enhanced Client is based on the concept of a `DynamoDbTable<T>`, which allows you to preform the 
 full range DynamoDB operations (`GetItem`, `PutItem`, etc.) in an ORM sort of way. Example:
@@ -45,7 +45,7 @@ _**Note:** The full code from these examples is available on [GitHub](https://gi
 // Set up DynamoDbEnhancedClient...
 DynamoDbTable<Customer> customerTable = 
         dynamoDbEnhancedClient.table(
-                "java-sdk-v2", TableSchema.fromClass(Customer.class));
+                TABLE_NAME, TableSchema.fromClass(Customer.class));
 
 Customer customer = new Customer();
 customer.setId("123");
@@ -65,7 +65,8 @@ breaks down with heterogeneous item collections where we want to query various t
 (in our case, a customer and one or more orders). So how can 
 we handle this with the Enhanced Client?
 
-For starters, we will need a `DynamoDbTable` for each entity in the item collection:
+For starters, we will need a `DynamoDbTable` for each entity in the item collection 
+even though all the items are in the same table:
 
 ```java
 DynamoDbTable<Customer> customerTable = 
