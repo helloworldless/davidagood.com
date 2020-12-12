@@ -33,6 +33,7 @@
     "typography-theme-wordpress-2016": "^0.16.19"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "prettier": "2.0.5"
   },
   "homepage": "https://github.com/helloworldless/davidagood.com",
@@ -47,7 +48,7 @@
   },
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "cross-env NODE_ENV=development gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
