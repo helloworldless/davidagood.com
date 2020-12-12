@@ -15,7 +15,8 @@ This post is based on this question:
 
 Add spring security dependency which automatically enables basic password authentication, you have to disable it if you don't need it, e.g. if authentication is already taken care of for you by an API gateway
 Doesn't use the context's ObjectMapper so jackson customizations need to be applied again, e.g. write_timestamps_as_strings
-It seems like this...
+I'm not sure why the author(s) have gone with inheritance over composition here. To me, that seems much more natural. Then 
+the caller could provide their own RestTemplate, e.g. `new OAuth2RestTemplate(myRestTemplate, otherParam);`
 
 # WebClient
 
