@@ -22,3 +22,10 @@ the caller could provide their own RestTemplate, e.g. `new OAuth2RestTemplate(my
 
 Add webflux and oauth2client dependencies, the latter actually protects your existing Spring Web endpoints by OAuth, so again you have to disable that if you don't need it
 
+This is a much bigger leap if you're not already using WebFlux. There are a lot of new concepts to learn and there seems to be some churn here as well. One solution I 
+found had already been deprecated.
+
+It's potentially harder to justify to your team.
+
+You'll likely have to learn new WebFlux abstractions from a testing perspective as well.
+
