@@ -15,7 +15,7 @@ doesn't explain much, although it does reference [Chapter 5. Conversions and Con
 of the Java spec. A bit of research reveals that `TypeVariable` is referring to a type parameter, so 
 in the following code snippet the `TypeVariable` is `String`:
  
-```
+```java
 List<String> words;
 ```
 
