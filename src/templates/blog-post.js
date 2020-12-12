@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
 import { MdLaunch } from "react-icons/md";
+import { constructAssetUrl } from "../utils/assetUrl";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
@@ -17,7 +18,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
-        imageSrc={post.frontmatter.image?.childImageSharp?.fixed?.src}
+        imageSrc={constructAssetUrl(data.site.siteMetadata.siteUrl, post.frontmatter.image?.childImageSharp?.fixed?.src)}
         imageAlt={post.frontmatter.imageAlt}
       />
       <article>
@@ -98,6 +99,7 @@ export const pageQuery = graphql`
     site {
       siteMetadata {
         title
+        siteUrl
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {

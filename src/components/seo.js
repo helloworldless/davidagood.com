@@ -9,6 +9,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { graphql, useStaticQuery } from "gatsby";
+import { constructAssetUrl } from "../utils/assetUrl";
 
 const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
   const { site, ogImageDefault } = useStaticQuery(
@@ -37,7 +38,7 @@ const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
   );
 
   const metaDescription = description || site.siteMetadata.description;
-  const ogImage = imageSrc || ogImageDefault?.childImageSharp?.fixed?.src;
+  const ogImage = imageSrc || constructAssetUrl(site.siteMetadata.siteUrl, ogImageDefault?.childImageSharp?.fixed?.src);
 
   return (
     <Helmet
