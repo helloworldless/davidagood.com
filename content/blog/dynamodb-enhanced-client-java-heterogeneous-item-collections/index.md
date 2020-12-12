@@ -5,6 +5,8 @@ description: "Working with heterogeneous item collections with the Java SDKs can
 them with the AWS SDK v2 for Java's Enhanced Client."
 image: "./kevin-mueller-gGUiw8GNIFE-unsplash.jpg"
 imageAlt: "Water droplets on black background"
+imageTitleHtml: '<span>Photo by <a href="https://unsplash.com/@kevinmueller?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Kevin Mueller</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>'
+
 ---
 
 Item collections are a core concept in DynamoDB, especially for "well-designed" applications using a single table 

@@ -7,6 +7,7 @@ import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
 import { MdLaunch } from "react-icons/md";
 import { constructAssetUrl } from "../utils/assetUrl";
+import Image from "gatsby-image";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
@@ -50,7 +51,25 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             </div>
             <p>{post.frontmatter.description}</p>
           </section>
-          : <section dangerouslySetInnerHTML={{ __html: post.html }}/>
+          : <>
+            {post.frontmatter.image?.childImageSharp?.fluid &&
+            <>
+              <Image
+                fluid={post.frontmatter.image.childImageSharp.fluid}
+                alt={post.frontmatter.imageAlt}
+              />
+              <div
+                style={{
+                  textAlign: "center",
+                  fontSize: "14px",
+                  lineHeight: "28px",
+                }}
+                dangerouslySetInnerHTML={{ __html: post.frontmatter.imageTitleHtml }} />
+              <br />
+              <br />
+            </>}
+            <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          </>
         }
         <hr
           style={{
@@ -102,7 +121,7 @@ export const pageQuery = graphql`
         siteUrl
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    markdownRemark(fields: {slug: {eq: $slug}}) {
       id
       excerpt(pruneLength: 160)
       html
@@ -114,13 +133,15 @@ export const pageQuery = graphql`
         externalUrl
         image {
           childImageSharp {
-            # Dimensions based on specifications mentioned here under 'twitter:image': 
-            # https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
             fixed(height: 600, width: 1200) {
               ...GatsbyImageSharpFixed
             }
+            fluid(maxWidth: 700, maxHeight: 500) {
+              ...GatsbyImageSharpFluid
+            }
           }
         }
+        imageTitleHtml
         imageAlt
       }
     }
