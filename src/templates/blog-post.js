@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 
 import Bio from "../components/bio";
 import Layout from "../components/layout";
@@ -17,6 +17,8 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
+        imageSrc={post.frontmatter.image?.childImageSharp?.fixed?.src}
+        imageAlt={post.frontmatter.imageAlt}
       />
       <article>
         <header>
@@ -108,6 +110,16 @@ export const pageQuery = graphql`
         description
         isExternal
         externalUrl
+        image {
+          childImageSharp {
+            # Dimensions based on specifications mentioned here under 'twitter:image': 
+            # https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
+            fixed(height: 600, width: 1200) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+        imageAlt
       }
     }
   }

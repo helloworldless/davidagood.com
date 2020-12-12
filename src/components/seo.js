@@ -8,10 +8,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-import { useStaticQuery, graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 
-const SEO = ({ description, lang, meta, title }) => {
-  const { site } = useStaticQuery(
+const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
+  const { site, ogImageDefault } = useStaticQuery(
     graphql`
       query {
         site {
@@ -21,13 +21,23 @@ const SEO = ({ description, lang, meta, title }) => {
             social {
               twitter
             }
+            siteUrl
+          }
+        }
+        ogImageDefault: file(relativePath: {eq: "icon.png"}) {
+          childImageSharp {
+            # These are the dimensions of the default file: content/assets/icon.png
+            fixed(height: 260, width: 260) {
+              src
+            }
           }
         }
       }
-    `
+    `,
   );
 
   const metaDescription = description || site.siteMetadata.description;
+  const ogImage = imageSrc || ogImageDefault?.childImageSharp?.fixed?.src;
 
   return (
     <Helmet
@@ -54,8 +64,15 @@ const SEO = ({ description, lang, meta, title }) => {
           content: `website`,
         },
         {
+          name: "og:image",
+          content: ogImage,
+        },
+        {
           name: `twitter:card`,
-          content: `summary`,
+          // If image prop is passed use the larger card; Otherwise the default
+          // og image is just a little icon so use the smaller card
+          // More about cards here: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
+          content: imageSrc ? `summary_large_image` : `summary`,
         },
         {
           name: `twitter:creator`,
@@ -68,6 +85,14 @@ const SEO = ({ description, lang, meta, title }) => {
         {
           name: `twitter:description`,
           content: metaDescription,
+        },
+        {
+          name: "twitter:image",
+          content: ogImage,
+        },
+        {
+          name: "twitter:image:alt",
+          content: imageAlt || "davidagood.com logo",
         },
       ].concat(meta)}
     />
