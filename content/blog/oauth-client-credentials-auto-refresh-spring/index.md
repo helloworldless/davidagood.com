@@ -1,11 +1,9 @@
 ---
 title: "How to Automatically Refresh OAuth2 Client Credentials in Spring"
 date: "2020-12-10T17:28:38.227Z"
-description: "How to handle OAuth2's `client_credentials` authentication and token 
+description: "How to handle OAuth2's Client Credentials authentication and token 
 refresh automatically in Spring"
 ---
-
-_Work In Progress_
 
 This post is based on this question:
 
@@ -13,21 +11,41 @@ This post is based on this question:
 
 # OAuth2RestTemplate
 
-Add spring security dependency which automatically enables basic password authentication, you have to disable it if you don't need it, e.g. if authentication is already taken care of for you by an API gateway
-Doesn't use the context's ObjectMapper so jackson customizations need to be applied again, e.g. write_timestamps_as_strings. In fact the ability to customize the behavior seems to be extremely limited by the 
-fact that OAuth2RestTemplate calls RestTemplate's default constructor under the hood. So in order to apply common customizations like Jackson's write_timestamps_as_strings I had to fall back to `@JsonFormat` 
-instead of ...
-I'm not sure why the author(s) have gone with inheritance over composition here. To me, that seems much more natural.
-the caller could provide their own RestTemplate, e.g. `new OAuth2RestTemplate(myRestTemplate, otherParam);`
+- How to use it: 
+  - Here's a nice blog post which shows how to use it:
+    [Secure Server-to-Server Communication with Spring Boot and OAuth 2.0](https://developer.okta.com/blog/2018/04/02/client-creds-with-spring-boot)
+- Caveats: 
+  - Adding the Spring Security dependency automatically enables basic password authentication, 
+    you have to disable it if you don't need it, i.e. using a `WebSecurityConfigurerAdapter` 
+  - Apparently doesn't use the context's `ObjectMapper` so Jackson customizations need to be applied again 
+    (not completely sure on how this works under the hood). Example: in order to apply a common customizations like 
+    Jackson's `WRITE_DATES_AS_TIMESTAMPS` I had to fall back to explicitly
+    annotating fields with `@JsonFormat`. In contrast, anywhere I'm using plain old `RestTemplate`, the 
+    serialization feature is picked up from application properties: 
+    `spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false`
 
 # WebClient
 
-Add webflux and oauth2client dependencies, the latter actually protects your existing Spring Web endpoints by OAuth, so again you have to disable that if you don't need it
+This is specifically in the context of using Spring Web and just adding Spring WebFlux for the purpose of using the 
+WebClient as described below. Take care when reading guides and documentation that you're reading servlet-specific 
+docs and not the reactive docs.
 
-This is a much bigger leap if you're not already using WebFlux. There are a lot of new concepts to learn and there seems to be some churn here as well. One solution I 
-found had already been deprecated.
+- How to use it:
+  - Add Spring WebFlux Starter dependency
+  - Add OAuth2 dependency 
+- Caveats:
+  - Adding the Spring OAuth2 Client dependency automatically protects your existing Spring Web endpoints by OAuth, 
+    which is not at all what we're after. So just like `OAuth2RestTemplate` 
+    this must be disabled, i.e. using a `WebSecurityConfigurerAdapter`
+  - This is a much bigger leap if you're not already using WebFlux, and potentially a harder sell for your team.
+    There are a lot of new concepts to learn 
+    and there seems to be some churn here as well. One solution I found used a class  
+    which has already been deprecated.
+  - You'll likely have to learn new WebFlux abstractions from an integration testing perspective as well.
 
-It's potentially harder to justify to your team.
+References:
 
-You'll likely have to learn new WebFlux abstractions from a testing perspective as well.
+- Spring Security Docs: [OAuth 2.0 Client](https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#oauth2client)
+  - Explains many of the concepts needed with relevant code examples
+- Spring Security Docs: [WebClient for Servlet Environments](https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#servlet-webclient)
 
