@@ -63,6 +63,13 @@ Here's a nice blog post which shows how to use it:
   annotating fields with `@JsonFormat`. In contrast, anywhere I'm using `RestTemplate`, the 
   serialization feature is picked up from application properties: 
   `spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false`.
+- Other `RestTeplate` customizations are lost, e.g. connection/read timeouts
+  - I haven't confirmed this, but I don't see how they could be carried over
+    
+I was actually considering re-implementing `OAuth2RestTemplate` using composition instead of 
+inheritance which would solve the last two caveats above. It should be pretty straightforward as there really isn't 
+much code in `OAuth2RestTemplate`, so using composition, almost everything would be delegated to `RestTemplate`. 
+In fact, I'm not sure why the author(s) of `OAuth2RestTemplate` didn't go with this approach.
 
 # WebClient
 
