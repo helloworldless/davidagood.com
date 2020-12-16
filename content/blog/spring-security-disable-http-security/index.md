@@ -2,8 +2,8 @@
 title: How To Completely Disable HTTP Security in Spring Security 
 date: "2020-12-16T16:18:08.998Z"
 description: "Spring is known and loved for its convention of configuration approach. But 
-it can make disable auto-configuration challenging. Here we see how to completely disable 
-Spring Security's HTTP security"
+this can occasionally cause a challenge when automatically enabled features need to be 
+disabled. Here we see how to completely disable Spring Security's HTTP security"
 ---
 
 _**Warning**: Don't do this unless you have a good reason to._
