@@ -50,9 +50,9 @@ care of the datatype "wrapping" for you so you can just write: `{'Name': 'Jack'}
   
 # Questions and Answers
 
-## How is an `UpdateItem` handled if no existing item matches the supplied `Key`?
+## How is `UpdateItem` handled if no existing item matches the supplied `Key`?
 
-A new item is created with the supplied key and the update supplied in the `UpdateExpression`.
+**Answer:** A new item is created with the supplied key and the update supplied in the `UpdateExpression`.
 
 ### Example
 
@@ -76,11 +76,9 @@ PK | SK | UserName
 ---|----|------------
 ORDER#123|A|User123|
 
-To prevent this you must add a `ConditionExpression`:
+To prevent this you must add a `ConditionExpression` which will result in a 
+condition check failure if no item matches the provided `Key` 
+(and therefore no `PK` attribute exists for that `Key`):
 
-`aws dynamodb
---table MyTable
---key '{"PK": {"S": "ORDER#123"}, "SK": {"S": "A"}}'
---update-expression "set UserName = :username"
---expression-attribute-values = '{":username": {"S": "User123"}}'
---condition-expression "attribute_exists(PK)"`
+
+`--condition-expression "attribute_exists(PK)"`
