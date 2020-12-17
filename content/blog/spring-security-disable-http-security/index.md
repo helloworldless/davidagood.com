@@ -6,7 +6,7 @@ this can occasionally cause a challenge when automatically enabled features need
 disabled. Here we see how to completely disable Spring Security's HTTP security"
 ---
 
-_**Warning**: Do not disable HTTP security as described in this article unless you have a good reason to._
+_**Warning**: Do not disable HTTP security as described in this post unless you have a good reason to._
 
 Spring is well-known for its convention over configuration approach where features works out of the box 
 with sensible defaults. Part of what enables this experience is Spring's auto-configuration whereby adding 
