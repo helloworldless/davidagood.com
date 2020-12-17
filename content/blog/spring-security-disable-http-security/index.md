@@ -6,7 +6,7 @@ this can occasionally cause a challenge when automatically enabled features need
 disabled. Here we see how to completely disable Spring Security's HTTP security"
 ---
 
-_**Warning**: Don't do this unless you have a good reason to._
+_**Warning**: Do not disable HTTP security as described in this article unless you have a good reason to._
 
 Spring is well-known for its convention over configuration approach where features works out of the box 
 with sensible defaults. Part of what enables this experience is Spring's auto-configuration whereby adding 
@@ -42,7 +42,7 @@ Spring Web MVC endpoints were being chained through 10 security `Filter`s which 
 the app isn't on the public internet and authentication was being handled by Kubernetes ingress.
 
 After trying numerous supposed solutions to disable all these default HTTP security features, 
-I found this solution the old-fashioned way: by digging through the `WebSecurityConfigurerAdapter` source code. 🙂
+I came up with the solution the old-fashioned way: by digging through the `WebSecurityConfigurerAdapter` source code. 🙂
 
 _**Warning**: Again, don't do this unless you have a good reason to. This will completely disable 
 all HTTP security for your app._
