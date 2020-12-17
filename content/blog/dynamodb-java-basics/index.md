@@ -47,3 +47,40 @@ care of the datatype "wrapping" for you so you can just write: `{'Name': 'Jack'}
 - [DynamoDB Enhanced Client: Support Querying and Marshalling Heterogeneous Item Collections](https://github.com/aws/aws-sdk-java-v2/issues/2151)
   - Once I understand the SDK codebase better, I would ideally like to contribute this myself
   - See how to do this here: 
+  
+# Questions and Answers
+
+## How is an `UpdateItem` handled if no existing item matches the supplied `Key`?
+
+A new item is created with the supplied key and the update supplied in the `UpdateExpression`.
+
+### Example
+
+Start with an empty table 
+
+PK | SK | UserName
+---|----|------------
+|||
+
+...and run this:
+
+`aws dynamodb 
+--table MyTable 
+--key '{"PK": {"S": "ORDER#123"}, "SK": {"S": "A"}}' 
+--update-expression "set UserName = :username" 
+--expression-attribute-values = '{":username": {"S": "User123"}}'`
+
+This will result in a new item being created:
+
+PK | SK | UserName
+---|----|------------
+ORDER#123|A|User123|
+
+To prevent this you must add a `ConditionExpression`:
+
+`aws dynamodb
+--table MyTable
+--key '{"PK": {"S": "ORDER#123"}, "SK": {"S": "A"}}'
+--update-expression "set UserName = :username"
+--expression-attribute-values = '{":username": {"S": "User123"}}'
+--condition-expression "attribute_exists(PK)"`
