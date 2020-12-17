@@ -9,7 +9,7 @@ disabled. Here we see how to completely disable Spring Security's HTTP security"
 _**Warning**: Don't do this unless you have a good reason to._
 
 Spring is well-known for its convention over configuration approach where features works out of the box 
-with sensible defaults. Part of what enables that experience is Spring's auto-configuration whereby adding 
+with sensible defaults. Part of what enables this experience is Spring's auto-configuration whereby adding 
 a Spring dependency to 
 your classpath automatically enables certain features. You may have noticed this with Spring JDBC. Once you add this 
 dependency, you must also add the baseline application properties which it requires like 
