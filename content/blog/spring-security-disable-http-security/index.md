@@ -42,9 +42,9 @@ Spring Web MVC endpoints were being chained through 10 security `Filter`s which 
 the app isn't on the public internet and authentication was being handled by Kubernetes ingress.
 
 After trying numerous supposed solutions to disable all these default HTTP security features, 
-I found this solution the old-fashioned way: by digging through the `WebSecurityConfigurerAdapter` source code :slightly_smiling_face:.
+I found this solution the old-fashioned way: by digging through the `WebSecurityConfigurerAdapter` source code. 🙂
 
-_**Warning**: Again, don't do this unless you have a good reason to. THis will completely disable 
+_**Warning**: Again, don't do this unless you have a good reason to. This will completely disable 
 all HTTP security for your app._
 
 ```java
