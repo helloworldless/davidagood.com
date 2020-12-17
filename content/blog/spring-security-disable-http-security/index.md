@@ -29,20 +29,24 @@ But this `exclude` property only works for configuration which is specifically a
 In other cases, the approach required to disable a feature is completely unique to the 
 Spring library or abstraction you're dealing with.
 
-With Spring Security, the default behavior enables 
-numerous security features (see [here](https://github.com/spring-projects/spring-security/blob/5.3.x/config/src/main/java/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.java#L210-L221) and [here](https://github.com/spring-projects/spring-security/blob/5.3.x/config/src/main/java/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.java#L364-L369))
+With Spring Security, the default behavior is to enable 
+numerous security features 
+(see [here](https://github.com/spring-projects/spring-security/blob/5.3.x/config/src/main/java/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.java#L210-L221) 
+and [here](https://github.com/spring-projects/spring-security/blob/5.3.x/config/src/main/java/org/springframework/security/config/annotation/web/configuration/WebSecurityConfigurerAdapter.java#L364-L369))
 including username and password-based authentication for all requests.
 
-But in my case, the only reason I had added the Spring Security dependency was for service to service 
+In my case, the only reason I had added the Spring Security dependency was for service to service 
 communication using OAuth2's Client Credentials Grant Type 
-(see [this post](/oauth-client-credentials-auto-refresh-spring/) for more info).
+(see [this post](/oauth-client-credentials-auto-refresh-spring/) for more info). Securing the app's 
+HTTP endpoints was _not_ the goal since authentication was already handled upstream in the architecture and 
+enforced by Kubernetes Ingress.
 
-But when I enabled `logging.level.org.springframework.security=DEBUG`, I saw that HTTP requests to the app's 
-Spring Web MVC endpoints were being chained through 10 security `Filter`s which were irrelevant because 
-the app isn't on the public internet and authentication was being handled by Kubernetes ingress.
+Once I added the Spring Security dependency, I ran the app with `logging.level.org.springframework.security=DEBUG`, 
+and I saw that HTTP requests to the app's 
+Spring Web MVC endpoints were now being chained through 10 security `Filter`s which were not needed as I mentioned above.
 
 After trying numerous supposed solutions to disable all these default HTTP security features, 
-I came up with the solution the old-fashioned way: by digging through the `WebSecurityConfigurerAdapter` source code. 🙂
+I came up with the solution below the old-fashioned way: by digging through the `WebSecurityConfigurerAdapter` source code. 🙂
 
 _**Warning**: Again, don't do this unless you have a good reason to. This will completely disable 
 all HTTP security for your app._
