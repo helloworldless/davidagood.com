@@ -6,6 +6,11 @@ td, th {
     border-bottom: 1px solid rgba(255, 255, 255, 0.9);
 }
 
+blockquote {
+    color: rgba(255, 255, 255, 0.9);
+    border-left-color: rgba(255, 255, 255, 0.75);
+}
+
 /* https://www.gatsbyjs.com/plugins/gatsby-remark-prismjs/?=gatsby-remark-prismjs#optional-add-line-numbering */
 .gatsby-highlight {
     background-color: rgb(45, 45, 45); /* Match codeblock color */
