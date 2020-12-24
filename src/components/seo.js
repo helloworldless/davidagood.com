@@ -9,10 +9,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { graphql, useStaticQuery } from "gatsby";
-import { constructAssetUrl } from "../utils/assetUrl";
+import { constructUrl } from "../utils/urlUtil";
 
-const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
-  const { site, ogImageDefault } = useStaticQuery(
+const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
+  const data = useStaticQuery(
     graphql`
       query {
         site {
@@ -37,8 +37,10 @@ const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
     `,
   );
 
-  const metaDescription = description || site.siteMetadata.description;
-  const ogImage = imageSrc || constructAssetUrl(site.siteMetadata.siteUrl, ogImageDefault?.childImageSharp?.fixed?.src);
+  const metaDescription = description || data.site.siteMetadata.description;
+
+  const defaultImageUrl = constructUrl(data.site.siteMetadata.siteUrl, data.ogImageDefault?.childImageSharp?.fixed?.src)
+  const ogImageUrl = imageUrl || defaultImageUrl;
 
   return (
     <Helmet
@@ -46,10 +48,10 @@ const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      titleTemplate={`%s | ${data.site.siteMetadata.title}`}
       meta={[
         {
-          name: `description`,
+          property: `description`,
           content: metaDescription,
         },
         {
@@ -65,34 +67,22 @@ const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
           content: `website`,
         },
         {
-          name: "og:image",
-          content: ogImage,
+          property: "og:image",
+          content: ogImageUrl,
         },
         {
-          name: `twitter:card`,
+          property: `twitter:card`,
           // If image prop is passed use the larger card; Otherwise the default
           // og image is just a little icon so use the smaller card
           // More about cards here: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
-          content: imageSrc ? `summary_large_image` : `summary`,
+          content: imageUrl ? `summary_large_image` : `summary`,
         },
         {
-          name: `twitter:creator`,
-          content: site.siteMetadata.social.twitter,
+          property: `twitter:creator`,
+          content: data.site.siteMetadata.social.twitter,
         },
         {
-          name: `twitter:title`,
-          content: title,
-        },
-        {
-          name: `twitter:description`,
-          content: metaDescription,
-        },
-        {
-          name: "twitter:image",
-          content: ogImage,
-        },
-        {
-          name: "twitter:image:alt",
+          property: "twitter:image:alt",
           content: imageAlt || "davidagood.com logo",
         },
       ].concat(meta)}

@@ -6,12 +6,13 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
 import { MdLaunch } from "react-icons/md";
-import { constructAssetUrl } from "../utils/assetUrl";
 import Image from "gatsby-image";
+import { constructUrl } from "../utils/urlUtil";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
   const siteTitle = data.site.siteMetadata.title;
+  const siteUrl= data.site.siteMetadata.siteUrl;
   const { previous, next } = pageContext;
 
   return (
@@ -19,7 +20,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
-        imageSrc={constructAssetUrl(data.site.siteMetadata.siteUrl, post.frontmatter.image?.childImageSharp?.fixed?.src)}
+        imageUrl={constructUrl(siteUrl, post.frontmatter.image?.childImageSharp?.fixed?.src)}
         imageAlt={post.frontmatter.imageAlt}
       />
       <article>
@@ -134,7 +135,7 @@ export const pageQuery = graphql`
         image {
           childImageSharp {
             fixed(height: 600, width: 1200) {
-              ...GatsbyImageSharpFixed
+              src
             }
             fluid(maxWidth: 700, maxHeight: 500) {
               ...GatsbyImageSharpFluid
