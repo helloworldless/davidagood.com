@@ -11,16 +11,15 @@ import { constructUrl } from "../utils/urlUtil";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
-  const siteTitle = data.site.siteMetadata.title;
-  const siteUrl= data.site.siteMetadata.siteUrl;
+  const { siteMetadata } = data.site;
   const { previous, next } = pageContext;
 
   return (
-    <Layout location={location} title={siteTitle}>
+    <Layout location={location} title={siteMetadata.title}>
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
-        imageUrl={constructUrl(siteUrl, post.frontmatter.image?.childImageSharp?.fixed?.src)}
+        imageUrl={constructUrl(siteMetadata.siteUrl, post.frontmatter.image?.childImageSharp?.fixed?.src)}
         imageAlt={post.frontmatter.imageAlt}
       />
       <article>

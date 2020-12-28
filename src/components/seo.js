@@ -37,9 +37,9 @@ const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
     `,
   );
 
-  const metaDescription = description || data.site.siteMetadata.description;
-
-  const defaultImageUrl = constructUrl(data.site.siteMetadata.siteUrl, data.ogImageDefault?.childImageSharp?.fixed?.src)
+  const { siteMetadata } = data.site;
+  const metaDescription = description || siteMetadata.description;
+  const defaultImageUrl = constructUrl(siteMetadata.siteUrl, data.ogImageDefault?.childImageSharp?.fixed?.src)
   const ogImageUrl = imageUrl || defaultImageUrl;
 
   return (
@@ -48,7 +48,7 @@ const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+      titleTemplate={`%s | ${siteMetadata.title}`}
       meta={[
         {
           property: `description`,
@@ -79,7 +79,7 @@ const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
         },
         {
           property: `twitter:creator`,
-          content: data.site.siteMetadata.social.twitter,
+          content: siteMetadata.social.twitter,
         },
         {
           property: "twitter:image:alt",
