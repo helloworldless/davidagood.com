@@ -45,5 +45,12 @@ query SiteData {
     }
   }
 }
-
 ```
+
+## TODO
+
+- Like button
+- Serverless visit counter
+- Migrate to Plausible
+- Comments
+- Search

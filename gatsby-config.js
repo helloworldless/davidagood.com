@@ -5,7 +5,7 @@ module.exports = {
       name: `David A. Good`,
       summary: `Software engineer crafting full-stack, cloud-native solutions for enterprise.`,
     },
-    description: `David A. Good's personal website, blog, etc.`,
+    description: `David A. Good's personal website and blog covering Java, React, DynamoDB, and much more`,
     siteUrl: `https://www.davidagood.com`,
     social: {
       twitter: `helloworldless`,
