@@ -16,7 +16,15 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
     org.springframework.boot.autoconfigure: DEBUG
+    # For debugging SpringBootTests: 
+    org.springframework.test.context.web: DEBUG
 ```
+
+# javax.servlet Filters
+
+- `org.springframework.security.web.debug.DebugFilter`
+- `org.springframework.web.filter.CommonsRequestLoggingFilter`
+- `ch.qos.logback.classic.helpers.MDCInsertingServletFilter`
 
 # Circular Bean Dependency
 

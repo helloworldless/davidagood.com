@@ -101,6 +101,37 @@ For reference, here are the dependencies you'll need:
     which has already been deprecated.
   - You'll likely have to learn new WebFlux abstractions from an integration testing perspective as well
 
+## Dependency on Servlet Environment Causes Unexpected Behavior
+
+The Spring Security OAuth2 configuration is heavily
+coupled to the Servlet environment. In other words, even though a service is
+making a backend-to-backend request to a resource server using OAuth 2's
+Client Credentials grant type, it is done in the context of the incoming servlet
+request. If the service is not using any
+kind of authentication for its Spring Web MVC controllers, the user is actually
+considered an authenticated, anonymous user. And in this scenario,
+`AuthenticatedPrincipalOAuth2AuthorizedClientRepository.loadAuthorizedClient`
+defers to `HttpSessionOAuth2AuthorizedClientRepository.loadAuthorizedClient` 
+which—just like it sounds—depends on an HTTP session to maintain a context
+across multiple requests. This results in the following unexpected behavior.
+
+Say we start up our service and make one
+HTTP request to it which under the hood leads to a service-to-service call to an 
+OAuth resource server. The Spring Security OAuth abstractions will determine that no 
+authorized client exists in its repository and make the necessary grant request
+to the authorization server before making the request to the resource server.
+All good so far. 
+
+Now we make a second HTTP request to our service which
+will lead to a second service-to-service call to the same OAuth resource server. Assuming
+the token has not expired, we would expect the Spring Security OAuth
+abstractions to re-use the token to call the resource server. In other
+words, it should not need to make a second grant request to the authorization
+server. However, if we do not use the same HTTP session for both
+requests, that is exactly what will happen.
+
+It appears that there are ways around this. More to come soon!
+
 ## References
 
 - Spring Security Docs: [OAuth 2.0 Client](https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#oauth2client)
