@@ -143,6 +143,11 @@ oauth2Client.setDefaultClientRegistrationId(REGISTRATION_ID);
 oauth2Client.setDefaultOAuth2AuthorizedClient(true);
 ```
 
+Looking at this now: 
+
+[Provide Servlet equivalent of UnAuthenticatedServerOAuth2AuthorizedClientRepository #6683](https://github.com/spring-projects/spring-security/issues/6683)
+
+
 
 ## References
 
