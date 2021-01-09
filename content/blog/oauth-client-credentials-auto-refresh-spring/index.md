@@ -142,7 +142,7 @@ oauth2Client.setDefaultOAuth2AuthorizedClient(true);
 ```
 
 Next I found this, [Provide Servlet equivalent of UnAuthenticatedServerOAuth2AuthorizedClientRepository #6683](https://github.com/spring-projects/spring-security/issues/6683),
-which lead to the creation of `AuthorizedClientServiceOAuth2AuthorizedClientManager` 
+which led to the creation of `AuthorizedClientServiceOAuth2AuthorizedClientManager` 
 (part of `org.springframework.security:spring-security-oauth2-client`) 
 which is described as:
 
