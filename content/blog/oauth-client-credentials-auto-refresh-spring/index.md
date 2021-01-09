@@ -132,6 +132,18 @@ requests, that is exactly what will happen.
 
 It appears that there are ways around this. More to come soon!
 
+These sound related but did not have the desired outcome of decoupling the
+client credentials grant request from the servlet context:
+
+```java
+ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client = new ServletOAuth2AuthorizedClientExchangeFilterFunction(
+        authorizedClientManager);
+oauth2Client.setDefaultClientRegistrationId(REGISTRATION_ID);
+// OR
+oauth2Client.setDefaultOAuth2AuthorizedClient(true);
+```
+
+
 ## References
 
 - Spring Security Docs: [OAuth 2.0 Client](https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#oauth2client)
