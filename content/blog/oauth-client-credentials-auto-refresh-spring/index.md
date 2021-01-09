@@ -79,12 +79,11 @@ docs and not the reactive docs.
 
 ## How To Use It
 
-There's a good example of using this in 
-[this Spring Authorization Server sample](https://github.com/spring-projects-experimental/spring-authorization-server/tree/master/samples/boot/oauth2-integration/client). 
-The Authorization Server 
-project is still experimental but not the code in the `client` module.
+After about one month of working with this, I created my own repo with all the lessons learned:
 
-For reference, here are the dependencies you'll need:
+[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-boot-oauth-client-credentials)
+
+For quick reference, here are the dependencies you'll need:
 
 - org.springframework.boot:spring-boot-starter-web
 - org.springframework.boot:spring-boot-starter-security
@@ -92,6 +91,7 @@ For reference, here are the dependencies you'll need:
 - org.springframework:spring-webflux
 
 ## Caveats
+
   - Adding the Spring OAuth2 Client dependency automatically protects your existing Spring Web endpoints by OAuth, 
     which is not at all what we're after. So just like `OAuth2RestTemplate` 
     this must be disabled, i.e. using a `WebSecurityConfigurerAdapter`
@@ -103,7 +103,7 @@ For reference, here are the dependencies you'll need:
 
 ## Dependency on Servlet Environment Causes Unexpected Behavior
 
-The Spring Security OAuth2 configuration is heavily
+By default, the Spring Security OAuth2 configuration is heavily
 coupled to the Servlet environment. In other words, even though a service is
 making a backend-to-backend request to a resource server using OAuth 2's
 Client Credentials grant type, it is done in the context of the incoming servlet
@@ -152,6 +152,23 @@ which is described as:
 
 Here's the [latest version of `AuthorizedClientServiceOAuth2AuthorizedClientManager`](https://github.com/spring-projects/spring-security/blob/5.4.2/oauth2/oauth2-client/src/main/java/org/springframework/security/oauth2/client/AuthorizedClientServiceOAuth2AuthorizedClientManager.java) 
 from Spring Security 5.4.2.
+
+At last: the `AuthorizedClientServiceOAuth2AuthorizedClientManager` was exactly what I was looking for to 
+eliminate the coupling of OAuth client credentials authorization to a servlet request and specific HTTP session. 
+
+See how to use it here:
+
+[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-boot-oauth-client-credentials)
+
+## Another Example of How To Use This
+
+_Although I ended up creating my own repo to demonstrate how this should be used based on several weeks of 
+experience using it, I still think this example is relevant because it's from the Spring team._
+
+There's another example of using this in
+[this Spring Authorization Server sample](https://github.com/spring-projects-experimental/spring-authorization-server/tree/master/samples/boot/oauth2-integration/client).
+The Authorization Server
+project is still experimental but not the code in the `client` module.
 
 ## References
 
