@@ -130,9 +130,7 @@ words, it should not need to make a second grant request to the authorization
 server. However, if we do not use the same HTTP session for both
 requests, that is exactly what will happen.
 
-It appears that there are ways around this. More to come soon!
-
-These sound related but did not have the desired outcome of decoupling the
+I did find these properties which sound related but did not have the desired outcome of decoupling the
 client credentials grant request from the servlet context:
 
 ```java
@@ -143,11 +141,17 @@ oauth2Client.setDefaultClientRegistrationId(REGISTRATION_ID);
 oauth2Client.setDefaultOAuth2AuthorizedClient(true);
 ```
 
-Looking at this now: 
+Next I found this, [Provide Servlet equivalent of UnAuthenticatedServerOAuth2AuthorizedClientRepository #6683](https://github.com/spring-projects/spring-security/issues/6683),
+which lead to the creation of `AuthorizedClientServiceOAuth2AuthorizedClientManager` 
+(part of `org.springframework.security:spring-security-oauth2-client`) 
+which is described as:
 
-[Provide Servlet equivalent of UnAuthenticatedServerOAuth2AuthorizedClientRepository #6683](https://github.com/spring-projects/spring-security/issues/6683)
+> An implementation of an OAuth2AuthorizedClientManager
+ that is capable of operating outside of a HttpServletRequest context,
+ e.g. in a scheduled/background thread and/or in the service-tier
 
-
+Here's the [latest version of `AuthorizedClientServiceOAuth2AuthorizedClientManager`](https://github.com/spring-projects/spring-security/blob/5.4.2/oauth2/oauth2-client/src/main/java/org/springframework/security/oauth2/client/AuthorizedClientServiceOAuth2AuthorizedClientManager.java) 
+from Spring Security 5.4.2.
 
 ## References
 
