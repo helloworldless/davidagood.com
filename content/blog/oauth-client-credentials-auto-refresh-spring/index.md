@@ -58,7 +58,7 @@ and not the reactive docs.
 
 After about one month of working with this, I created my own repo with all the lessons learned:
 
-[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-boot-oauth-client-credentials)
+[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient)
 
 For quick reference, here are the dependencies you'll need:
 
@@ -79,7 +79,7 @@ For quick reference, here are the dependencies you'll need:
   has already been deprecated.
 - You'll have to use new tools from a testing perspective. For example, `ExchangeFunction` for unit testing. Also, you
   won't be able to use `MockRestServiceServer`. The Spring team recommends using OkHttp's `MockWebServer` which is what
-  I've used in my [demo repo](https://github.com/helloworldless/spring-boot-oauth-client-credentials).
+  I've used in my [demo repo](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient).
 
 ## Dependency on Servlet Environment Causes Unexpected Behavior
 
@@ -132,7 +132,7 @@ coupling of OAuth client credentials authorization to a servlet request and spec
 
 See how to use it here:
 
-[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-boot-oauth-client-credentials)
+[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient)
 
 ## Another Example of How To Use This
 
