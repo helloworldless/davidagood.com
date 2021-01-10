@@ -25,8 +25,9 @@ by [OAuth2's Client Credentials Grant Type](https://oauth.net/2/grant-types/clie
 So far, this is simple enough—it's basically passing a username and password to one service which returns a token which
 is then sent on subsequent requests to another service. The tricky part is that the token periodically expires, so
 Customer Service needs to periodically request a new token from the authorization server before calling Order Service. I
-refer to this as refreshing the token, not to be confused
-with [OAuth2's Refresh Grant Type](https://oauth.net/2/grant-types/refresh-token/).
+refer to this as refreshing the token (not to be confused
+with [OAuth2's Refresh Grant Type](https://oauth.net/2/grant-types/refresh-token/)), although technically it's not a
+refresh but just another request which "exchanges" the client credentials for a new token.
 
 I considered a few ideas of how you to handle the token expiration:
 
