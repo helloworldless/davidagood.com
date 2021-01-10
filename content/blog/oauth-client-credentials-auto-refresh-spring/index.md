@@ -8,6 +8,8 @@ WebFlux's WebClient together with Spring Security OAuth2 Client abstractions and
 Another solution uses OAuth2RestTemplate which is simple but not at all customizable."
 ---
 
+# Background
+
 This post is based on this question:
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Does anyone have an example of using <a href="https://twitter.com/springframework?ref_src=twsrc%5Etfw">@springframework</a> WebClient (or RestTemplate) to get an OAuth2 token from a private provider and automatically refresh it before it expires? Ideally I can just call the <a href="https://twitter.com/hashtag/OAuth?src=hash&amp;ref_src=twsrc%5Etfw">#OAuth</a> protected service without worrying about the authn details.</p>&mdash; David Good (@helloworldless) <a href="https://twitter.com/helloworldless/status/1335937905643167750?ref_src=twsrc%5Etfw">December 7, 2020</a></blockquote>
@@ -46,7 +48,7 @@ is such a common problem, I thought, it must be already solved within the Spring
 the solutions I describe below use  
 strategy #3 from above.
 
-# WebClient
+# Solution #1: Using WebClient
 
 This is specifically in the context of using Spring Web and just adding Spring WebFlux for the purpose of using the
 WebClient as described below. Take care when reading guides and documentation that you're reading servlet-specific docs
@@ -67,13 +69,17 @@ For quick reference, here are the dependencies you'll need:
 
 ## Caveats
 
+- This solution is highly configurable, but that comes at the cost of complexity. If you're not experienced with Spring
+  Security and OAuth, there are a lot of new abstractions to learn.
 - Adding the Spring OAuth2 Client dependency automatically protects your existing Spring Web endpoints by OAuth, which
   is not at all what we're after. So just like `OAuth2RestTemplate`
   this must be disabled, i.e. using a `WebSecurityConfigurerAdapter`
 - This is a much bigger leap if you're not already using WebFlux, and potentially a harder sell for your team. There are
   a lot of new concepts to learn and there seems to be some churn here as well. One solution I found used a class which
   has already been deprecated.
-- You'll likely have to learn new WebFlux abstractions from an integration testing perspective as well
+- You'll have to use new tools from a testing perspective. For example, `ExchangeFunction` for unit testing. Also, you
+  won't be able to use `MockRestServiceServer`. The Spring team recommends using OkHttp's `MockWebServer` which is what
+  I've used in my [demo repo](https://github.com/helloworldless/spring-boot-oauth-client-credentials).
 
 ## Dependency on Servlet Environment Causes Unexpected Behavior
 
@@ -145,7 +151,7 @@ There's another example of using this in
 - Spring Security
   Docs: [WebClient for Servlet Environments](https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#servlet-webclient)
 
-# OAuth2RestTemplate
+# Solution #1: Using OAuth2RestTemplate
 
 ## How To Use It
 
@@ -155,6 +161,8 @@ Here's a nice blog post which shows how to use it:
 
 ## Caveats
 
+- `OAuth2RestTemplate` is in no way, shape, or form customizable. To be honest, it seems to have been slapped together
+  in an hour or two just to check a box or close out an issue.
 - Adding the Spring Security dependency automatically enables basic password authentication, you have to disable it if
   you don't need it, i.e. using a `WebSecurityConfigurerAdapter`
 - Doesn't pick up Jackson customizations from the context, so they need to be applied again which may not be
