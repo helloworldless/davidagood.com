@@ -9,9 +9,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { graphql, useStaticQuery } from "gatsby";
-import { constructUrl } from "../utils/urlUtil";
 
-const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
+// Be lenient with null values making sure we
+// return null if either argument is not provided
+const constructUrl = (baseUrl, path) =>
+  !baseUrl || !path ? null : `${baseUrl}${path}`;
+
+const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
   const data = useStaticQuery(
     graphql`
       query {
@@ -25,7 +29,7 @@ const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
             siteUrl
           }
         }
-        ogImageDefault: file(relativePath: {eq: "icon.png"}) {
+        ogImageDefault: file(relativePath: { eq: "icon.png" }) {
           childImageSharp {
             # These are the dimensions of the default file: content/assets/icon.png
             fixed(height: 260, width: 260) {
@@ -34,13 +38,18 @@ const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
           }
         }
       }
-    `,
+    `
   );
 
   const { siteMetadata } = data.site;
   const metaDescription = description || siteMetadata.description;
-  const defaultImageUrl = constructUrl(siteMetadata.siteUrl, data.ogImageDefault?.childImageSharp?.fixed?.src)
-  const ogImageUrl = imageUrl || defaultImageUrl;
+  const imageUrl = constructUrl(siteMetadata.siteUrl, imageSrc);
+  const ogImageUrl =
+    imageUrl ??
+    constructUrl(
+      siteMetadata.siteUrl,
+      data.ogImageDefault.childImageSharp.fixed.src
+    );
 
   return (
     <Helmet
@@ -75,7 +84,7 @@ const SEO = ({ description, lang, meta, title, imageUrl, imageAlt }) => {
           // If image prop is passed use the larger card; Otherwise the default
           // og image is just a little icon so use the smaller card
           // More about cards here: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
-          content: imageUrl ? `summary_large_image` : `summary`,
+          content: ogImageUrl ? `summary_large_image` : `summary`,
         },
         {
           property: `twitter:creator`,
