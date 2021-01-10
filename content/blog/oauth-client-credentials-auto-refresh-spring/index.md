@@ -15,10 +15,12 @@ This post is based on this question:
 Here's a more accurate description of my scenario:
 
 Let's say I'm a developer working on Customer Service which needs to request some information from another microservice,
-Order Service, which is secured by OAuth2. In OAuth terminology, Order Service is a resource server. So before making
-the request to Order Service, Customer Service needs to be authenticated by the OAuth2 authentication server and pass an
-access token on any request to Order Service to prove its identity. This type of service-to-service authentication is
-specified by [OAuth2's Client Credentials Grant Type](https://oauth.net/2/grant-types/client-credentials/).
+Order Service, which is secured by OAuth2. In OAuth terminology, Order Service is a resource server. Before making a
+request to Order Service, Customer Service needs to make an authorization grant request to the OAuth2 authentication
+server. The response from the authorization server includes an access token which then must be passed on the request to
+Order Service in order to prove that it is authorized to access the resource. This type of service-to-service
+authentication is specified
+by [OAuth2's Client Credentials Grant Type](https://oauth.net/2/grant-types/client-credentials/).
 
 So far, this is simple enough—it's basically passing a username and password to one service which returns a token which
 is then sent on subsequent requests to another service. The tricky part is that the token periodically expires, so
