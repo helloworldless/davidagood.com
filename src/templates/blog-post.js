@@ -7,7 +7,6 @@ import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
 import { MdLaunch } from "react-icons/md";
 import Image from "gatsby-image";
-import { constructUrl } from "../utils/urlUtil";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
@@ -19,7 +18,7 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
-        imageUrl={constructUrl(siteMetadata.siteUrl, post.frontmatter.image?.childImageSharp?.fixed?.src)}
+        imageSrc={post.frontmatter.image?.childImageSharp?.fixed?.src}
         imageAlt={post.frontmatter.imageAlt}
       />
       <article>
@@ -42,42 +41,56 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             {post.frontmatter.date}
           </p>
         </header>
-        {post.frontmatter.isExternal
-          ? <section>
+        {post.frontmatter.isExternal ? (
+          <section>
             <div style={{ marginBottom: rhythm(0.5) }}>
-              <a style={{ boxShadow: `none` }} href={post.frontmatter.externalUrl}>
-                <span>{post.frontmatter.title} <MdLaunch/></span>
+              <a
+                style={{ boxShadow: `none` }}
+                href={post.frontmatter.externalUrl}
+              >
+                <span>
+                  {post.frontmatter.title} <MdLaunch />
+                </span>
               </a>
             </div>
             <p>{post.frontmatter.description}</p>
           </section>
-          : <>
-            {post.frontmatter.image?.childImageSharp?.fluid &&
-            <>
-              <Image
-                fluid={post.frontmatter.image.childImageSharp.fluid}
-                alt={post.frontmatter.imageAlt}
-              />
-              <div
-                style={{
-                  textAlign: "center",
-                  fontSize: "14px",
-                  lineHeight: "28px",
-                }}
-                dangerouslySetInnerHTML={{ __html: post.frontmatter.imageTitleHtml }} />
-              <br />
-              <br />
-            </>}
+        ) : (
+          <>
+            {post.frontmatter.image?.childImageSharp?.fluid && (
+              <>
+                <figure>
+                  <Image
+                    fluid={post.frontmatter.image.childImageSharp.fluid}
+                    alt={post.frontmatter.imageAlt}
+                  />
+                  <figcaption
+                    style={{
+                      textAlign: "center",
+                      fontSize: "14px",
+                      paddingTop: "8px",
+                    }}
+                  >
+                    <cite
+                      dangerouslySetInnerHTML={{
+                        __html: post.frontmatter.imageCaption,
+                      }}
+                    />
+                  </figcaption>
+                </figure>
+                <br />
+              </>
+            )}
             <section dangerouslySetInnerHTML={{ __html: post.html }} />
           </>
-        }
+        )}
         <hr
           style={{
             marginBottom: rhythm(1),
           }}
         />
         <footer>
-          <Bio/>
+          <Bio />
         </footer>
       </article>
 
@@ -121,7 +134,7 @@ export const pageQuery = graphql`
         siteUrl
       }
     }
-    markdownRemark(fields: {slug: {eq: $slug}}) {
+    markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
       html
@@ -141,7 +154,7 @@ export const pageQuery = graphql`
             }
           }
         }
-        imageTitleHtml
+        imageCaption
         imageAlt
       }
     }
