@@ -198,3 +198,22 @@ public class Customer {
 }
 ```
 
+**Update:** I noticed the slightly different error shown below when using version 
+`software.amazon.awssdk:dynamodb-enhanced:2.15.0`. 
+The issue was caused by the partition key setter not being publicly accessible.
+
+```text
+Exception in thread "main" java.lang.IllegalArgumentException: Attempt to execute an operation against an index that requires a partition key without assigning a partition key to that index. Index name: $PRIMARY_INDEX
+at software.amazon.awssdk.enhanced.dynamodb.mapper.StaticTableMetadata.indexPartitionKey(StaticTableMetadata.java:86)
+at software.amazon.awssdk.enhanced.dynamodb.TableMetadata.primaryPartitionKey(TableMetadata.java:121)
+at software.amazon.awssdk.enhanced.dynamodb.internal.operations.PutItemOperation.generateRequest(PutItemOperation.java:68)
+at software.amazon.awssdk.enhanced.dynamodb.internal.operations.PutItemOperation.generateRequest(PutItemOperation.java:40)
+at software.amazon.awssdk.enhanced.dynamodb.internal.operations.CommonOperation.execute(CommonOperation.java:113)
+at software.amazon.awssdk.enhanced.dynamodb.internal.operations.TableOperation.executeOnPrimaryIndex(TableOperation.java:59)
+at software.amazon.awssdk.enhanced.dynamodb.internal.client.DefaultDynamoDbTable.putItem(DefaultDynamoDbTable.java:179)
+at software.amazon.awssdk.enhanced.dynamodb.internal.client.DefaultDynamoDbTable.putItem(DefaultDynamoDbTable.java:187)
+at software.amazon.awssdk.enhanced.dynamodb.internal.client.DefaultDynamoDbTable.putItem(DefaultDynamoDbTable.java:192)
+at com.davidagood.awssdkv2.dynamodb.repository.AppBasic.main(AppBasic.java:24)
+
+
+```
