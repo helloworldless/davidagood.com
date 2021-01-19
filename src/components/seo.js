@@ -84,7 +84,7 @@ const SEO = ({ description, lang, meta, title, imageSrc, imageAlt }) => {
           // If image prop is passed use the larger card; Otherwise the default
           // og image is just a little icon so use the smaller card
           // More about cards here: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
-          content: ogImageUrl ? `summary_large_image` : `summary`,
+          content: imageUrl ? `summary_large_image` : `summary`,
         },
         {
           property: `twitter:creator`,
