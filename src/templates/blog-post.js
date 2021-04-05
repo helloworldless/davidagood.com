@@ -78,7 +78,6 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
                     />
                   </figcaption>
                 </figure>
-                <br />
               </>
             )}
             <section dangerouslySetInnerHTML={{ __html: post.html }} />
