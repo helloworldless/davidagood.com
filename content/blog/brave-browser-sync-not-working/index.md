@@ -35,6 +35,14 @@ Here are the steps from start to finish:
    the "Sync Settings" section. Customize what you want to sync, 
    or choose "Sync everything"
 
+
+## Advanced Tip: Sync Internals
+
+If you really want to investigate the nitty-gritty details of Sync, 
+browse to brave://sync-internals:
+
+![Brave Sync Internals diagnostics page](brave-sync-internals.jpg)
+
 ## Details
 
 To my surprise, this was **not** a technical issue but a design and user experience issue. 
