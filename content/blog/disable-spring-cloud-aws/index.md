@@ -13,45 +13,20 @@ between the current version and "legacy" version of the library is explained rea
 
 ## Spring Cloud AWS 2.3.0 And Later
 
-A configuration property, `cloud.aws.sqs.enabled`, has been added for this as of 2.3.0. 
-Below is the `application.yaml` for disabling this when running locally.
+Configuration properties have been added for this exact purpose since 2.3.0. Here are the properties which are currently availbable:
 
-For more details, including how to disable this for `@SpringBootTest`, 
-check out the `spring-cloud-aws` module of the
-[GitHub repo](https://github.com/helloworldless/disable-spring-cloud-aws).
+- `cloud.aws.sqs.enabled`
+- `cloud.aws.sns.enabled`
+- `cloud.aws.rds.enabled`
+- `cloud.aws.elasticache.enabled`
+- `cloud.aws.mail.enabled` (or `spring.cloud.aws.ses.enabled`)
+- `cloud.aws.stack.enabled`
+- `cloud.aws.instance.data.enabled`
+- `spring.cloud.aws.security.cognito.enabled`
+
+Here is the `application.yaml` for disabling SQS when running locally:
 
 ```yaml
-cloud:
-  aws:
-    stack:
-      auto: false
-    region:
-      # Use this to get the region from the Default Region Provider Chain
-      # https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/java-dg-region-selection.html#default-region-provider-chain
-      auto: true
-      use-default-aws-region-chain: true
-      # Use this if you want to set the region manually
-      # auto: false
-      # static: us-east-1
-    credentials:
-      # Use this to get the credentials from the Default Credential Provider Chain
-      # https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html#credentials-default
-      use-default-aws-credentials-chain: true
-      # Use this if you want to set the credentials manually
-      # access-key:
-      # secret-key:
-
-logging:
-  level:
-    io.awspring.cloud: debug
-    # Ignore scary but innocuous warnings from these AWS dependencies as recommended in the Spring Cloud AWS Reference Docs
-    com.amazonaws.util.EC2MetadataUtils: error
-    com.amazonaws.internal.InstanceMetadataServiceResourceFetcher: error
-
-app:
-  sqs-queue-name: test-queue
-
----
 spring:
   config:
     activate:
@@ -63,54 +38,85 @@ cloud:
       enabled: false
 ```
 
+The properties above can be used together with profile-specific configuration, e.g. `@Profile("!(local | test)")`:
+
+```java
+import io.awspring.cloud.messaging.config.QueueMessageHandlerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver;
+
+import java.util.Collections;
+
+@Profile("!(local | test)")
+@Configuration
+class SqsConfig {
+
+    @Bean
+    QueueMessageHandlerFactory queueMessageHandlerFactory() {
+        QueueMessageHandlerFactory factory = new QueueMessageHandlerFactory();
+        MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
+        messageConverter.setStrictContentTypeMatch(false);
+        factory.setArgumentResolvers(Collections.singletonList(new PayloadMethodArgumentResolver(messageConverter)));
+        return factory;
+    }
+
+}
+```
+
+For an example of how to disable this for `@SpringBootTest`, 
+check out the `spring-cloud-aws` module of the
+[GitHub repo](https://github.com/helloworldless/disable-spring-cloud-aws).
+
 ## Spring Cloud AWS 2.2.5 And Before
 
 The easiest way I've found is by disabling the 
 `MessagingAutoConfiguration` auto-configuration. Below is the 
 `application.yaml` for disabling this when running locally.
 
-There are a few other solutions you can check in
-`spring-cloud-aws-legacy` module of the
-[GitHub repo](https://github.com/helloworldless/disable-spring-cloud-aws) which also 
-includes how to disable this for `@SpringBootTest`.
-
 ```yaml
-cloud:
-  aws:
-    stack:
-      auto: false
-    region:
-      # Use this to get the region from the Default Region Provider Chain
-      # https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/java-dg-region-selection.html#default-region-provider-chain
-      auto: true
-      use-default-aws-region-chain: true
-      # Use this if you want to set the region manually
-      # auto: false
-      # static: us-east-1
-    credentials:
-      # Use this to get the credentials from the Default Credential Provider Chain
-      # https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html#credentials-default
-      use-default-aws-credentials-chain: true
-      # Use this if you want to set the credentials manually
-      # access-key:
-      # secret-key:
-
-logging:
-  level:
-    org.springframework.cloud.aws: debug
-    # Ignore scary but innocuous warnings from these AWS dependencies as recommended in the Spring Cloud AWS Reference Docs
-    com.amazonaws.util.EC2MetadataUtils: error
-    com.amazonaws.internal.InstanceMetadataServiceResourceFetcher: error
-
-app:
-  sqs-queue-name: test-queue
-
----
 spring:
   profiles: local
   autoconfigure:
     exclude: org.springframework.cloud.aws.autoconfigure.messaging.MessagingAutoConfiguration
 ```
+
+The properties above can be used together with profile-specific configuration, e.g. `@Profile("!(local | test)")`:
+
+```java
+import org.springframework.cloud.aws.messaging.config.QueueMessageHandlerFactory;
+import org.springframework.cloud.aws.messaging.config.annotation.EnableSqs;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver;
+
+import java.util.Collections;
+
+@EnableSqs
+@Profile("!(local | test)")
+@Configuration
+class SqsConfig {
+
+    @Bean
+    QueueMessageHandlerFactory queueMessageHandlerFactory() {
+        QueueMessageHandlerFactory factory = new QueueMessageHandlerFactory();
+        MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
+        messageConverter.setStrictContentTypeMatch(false);
+        factory.setArgumentResolvers(Collections.singletonList(new PayloadMethodArgumentResolver(messageConverter)));
+        return factory;
+    }
+
+}
+```
+
+There are a few other solutions you can check in
+`spring-cloud-aws-legacy` module of the
+[GitHub repo](https://github.com/helloworldless/disable-spring-cloud-aws) which also 
+includes how to disable this for `@SpringBootTest`.
 
 ## Errors Which I've Come Across While Attempting to Disable Spring Cloud AWS 
 
