@@ -24,7 +24,9 @@ Configuration properties have been added for this exact purpose since 2.3.0. Her
 - `cloud.aws.instance.data.enabled`
 - `spring.cloud.aws.security.cognito.enabled`
 
-Here is the `application.yaml` for disabling SQS when running locally:
+For example, here is how to disable SQS when running locally.
+
+Add these properties to your `application.yaml`:
 
 ```yaml
 spring:
@@ -38,7 +40,7 @@ cloud:
       enabled: false
 ```
 
-The properties above can be used together with profile-specific configuration, e.g. `@Profile("!(local | test)")`:
+Use `@Profile` to enable/disable configuration conditionally based on the Spring active profiles:
 
 ```java
 import io.awspring.cloud.messaging.config.QueueMessageHandlerFactory;
@@ -72,9 +74,11 @@ check out the `spring-cloud-aws` module of the
 
 ## Spring Cloud AWS 2.2.5 And Before
 
-The easiest way I've found is by disabling the 
-`MessagingAutoConfiguration` auto-configuration. Below is the 
-`application.yaml` for disabling this when running locally.
+The easiest way I've found is to exclude auto-configuration for the service you want to disable. You will need to find the appropriate auto-configuration class in this package: `org.springframework.cloud.aws.autoconfigure`.
+
+Here's an example of how to disable SQS when running locally.
+
+Add these properties to your `application.yaml`:
 
 ```yaml
 spring:
@@ -83,7 +87,7 @@ spring:
     exclude: org.springframework.cloud.aws.autoconfigure.messaging.MessagingAutoConfiguration
 ```
 
-The properties above can be used together with profile-specific configuration, e.g. `@Profile("!(local | test)")`:
+Use `@Profile` to enable/disable configuration conditionally based on the Spring active profiles:
 
 ```java
 import org.springframework.cloud.aws.messaging.config.QueueMessageHandlerFactory;
