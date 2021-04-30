@@ -11,6 +11,10 @@ The solution depends on which version of Spring Cloud AWS you're using. The diff
 between the current version and "legacy" version of the library is explained really well
 [here](https://awspring.io/learn/introduction/#versions).
 
+As a pre-requisite, make sure you have your AWS credentials and AWS region 
+configured properly in the Spring Cloud AWS application properties. 
+See [How to Configure AWS Credentials and Region in Spring Cloud AWS](https://davidagood.com/configure-credentials-region-spring-cloud-aws).
+
 ## Spring Cloud AWS 2.3.0 And Later
 
 Configuration properties have been added for this exact purpose since 2.3.0. Here are the properties which are currently availbable:
