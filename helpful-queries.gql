@@ -1,0 +1,66 @@
+query KitchenSink {
+    site {
+        siteMetadata {
+            title
+            description
+            social {
+                twitter
+            }
+            siteUrl
+        }
+    }
+    markdownRemark(fields: { slug: { eq: "/disable-spring-cloud-aws/" } }) {
+        id
+        fields {
+            slug
+        }
+        excerpt(pruneLength: 160)
+        html
+        frontmatter {
+            title
+            date(formatString: "MMMM DD, YYYY")
+            description
+            isExternal
+            externalUrl
+            image {
+                childImageSharp {
+                    fixed(height: 600, width: 1200) {
+                        src
+                    }
+                    fluid(maxWidth: 700, maxHeight: 500) {
+                        src
+                    }
+                }
+            }
+            imageCaption
+            imageAlt
+        }
+    }
+    ogImageDefault: file(relativePath: {eq: "icon.png"}, sourceInstanceName: {eq: "assets"}) {
+        publicURL
+        childImageSharp {
+            fixed(height: 260, width: 260) {
+                src
+            }
+        }
+    }
+}
+
+query AllFiles {
+    allFile(filter: {sourceInstanceName: {eq: "blog"}}) {
+        edges {
+            node {
+                relativePath
+                publicURL
+            }
+        }
+    }
+}
+
+query File {
+    file(relativePath: {eq: "icon.png"}) {
+        relativePath
+        absolutePath
+        sourceInstanceName
+    }
+}
