@@ -9,7 +9,7 @@ build:
   image: node:14.16.1-alpine3.13
   script:
     - yarn install --prod
-    - yarn build
+    - node_modules/.bin/gatsby build
     - echo "BUILD SUCCESSFULLY"
   artifacts:
     paths:
