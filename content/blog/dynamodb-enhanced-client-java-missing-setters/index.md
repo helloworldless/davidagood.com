@@ -24,7 +24,7 @@ as the getter.
 
 For example, if your entity has a `userName` attribute  with a getter:
 
-```
+```java
 public String getUserName() { 
     return this.userName; 
 }
@@ -32,7 +32,7 @@ public String getUserName() {
 
 ...then it must also have a matching setter which is publicly accessible:
 
-```
+```java
 public void setUserName(String userName) { 
     this.userName = userName; 
 }
