@@ -10,7 +10,6 @@ build:
   script:
     - yarn install --prod
     - yarn build
-    - echo "BUILD SUCCESSFULLY"
   artifacts:
     paths:
       - public/
@@ -24,7 +23,6 @@ deploy:
   script:
     - aws s3 sync ./public s3://$S3_BUCKET_NAME/ --delete
     - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths '/*'
-    - echo "DEPLOYED SUCCESSFULLY"
   environment:
     name: production
     url: https://www.davidagood.com
