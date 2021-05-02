@@ -6,9 +6,11 @@ stages:
 
 build:
   stage: build
-  image: node:8.11.3
+  image: node:14.16.1
   script:
     - npm i -g yarn
+    - ls -l $(which yarn)
+    - chmod +x $(which yarn)
     - yarn install --prod
     - yarn build
     - echo "BUILD SUCCESSFULLY"
