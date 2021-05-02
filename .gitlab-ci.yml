@@ -22,8 +22,6 @@ deploy:
   dependencies:
     - build
   script:
-    - export S3_BUCKET_NAME=$S3_BUCKET_NAME
-    - export CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID
     - aws s3 rm s3://$S3_BUCKET_NAME --recursive
     - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths '/*'
     - echo "DEPLOYED SUCCESSFULLY"
