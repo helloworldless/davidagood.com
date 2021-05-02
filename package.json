@@ -56,5 +56,9 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
+  "@comment:resolutions.sharp": "Fixing Segmentation fault (SIGSEGV): https://github.com/gatsbyjs/gatsby/issues/6291#issuecomment-769340539",
+  "resolutions": {
+    "sharp": "^0.27.1"
   }
 }

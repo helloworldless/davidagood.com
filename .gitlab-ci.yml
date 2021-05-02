@@ -1,0 +1,38 @@
+image: docker:latest
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: node:14.16.1
+  script:
+    - yarn install --prod
+    - yarn build
+    - echo "BUILD SUCCESSFULLY"
+  artifacts:
+    paths:
+      - public/
+    expire_in: 20 mins
+
+deploy:
+  stage: deploy
+  image: python:3.5
+  dependencies:
+    - build
+  script:
+    - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    - export S3_BUCKET_NAME=$S3_BUCKET_NAME
+    - export CF_DISTRIBUTION_ID=$CF_DISTRIBUTION_ID
+    - pip install awscli --upgrade --user
+    - export PATH=~/.local/bin:$PATH
+    - aws s3 rm s3://$S3_BUCKET_NAME --recursive
+    - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths '/*'
+    - echo "DEPLOYED SUCCESSFULLY"
+  environment:
+    name: production
+    url: https://www.davidagood.com
+  only:
+    - master
