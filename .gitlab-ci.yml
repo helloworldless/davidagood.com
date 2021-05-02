@@ -6,11 +6,8 @@ stages:
 
 build:
   stage: build
-  image: node:14.16.1
+  image: node:14.16.1-alpine3.13
   script:
-    - npm i -g yarn
-    - ls -l $(which yarn)
-    - chmod +x $(which yarn)
     - yarn install --prod
     - yarn build
     - echo "BUILD SUCCESSFULLY"
