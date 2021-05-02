@@ -22,7 +22,7 @@ deploy:
   dependencies:
     - build
   script:
-    - aws s3 rm s3://$S3_BUCKET_NAME --recursive
+    - aws s3 sync ./public s3://$S3_BUCKET_NAME/ --delete
     - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths '/*'
     - echo "DEPLOYED SUCCESSFULLY"
   environment:
