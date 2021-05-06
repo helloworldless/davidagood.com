@@ -16,12 +16,15 @@ Hibernate validator.
 
 ## Solution
 
-You will need to add dependency: `org.springframework.boot:spring-boot-starter-validation`.
+You will need to add this dependency: `org.springframework.boot:spring-boot-starter-validation`.
 
 ```yaml
+# application.yml
 app:
   secret: ${ENV_VAR}
 ```
+
+<br />
 
 ```java
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -37,7 +40,8 @@ public class Config {
 
     @AssertTrue
     boolean isSecretValid() {
-        return hasText(secret) && !(secret.startsWith("${") && secret.endsWith("}"));
+        return hasText(secret) && 
+                !(secret.startsWith("${") && secret.endsWith("}"));
     }
 
     public String getSecret() {
