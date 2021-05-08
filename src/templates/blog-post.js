@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { graphql, Link } from "gatsby";
-import Disqus from "gatsby-plugin-disqus";
+import { MdLaunch } from "react-icons/md";
+import Image from "gatsby-image";
 
 import Bio from "../components/bio";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
-import { MdLaunch } from "react-icons/md";
-import Image from "gatsby-image";
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
   const { siteMetadata } = data.site;
   const { previous, next } = pageContext;
 
-  const disqusConfig = {
-    url: `${siteMetadata.siteUrl + location.pathname}`,
-    identifier: post.id,
-    title: post.frontmatter.title,
-  };
+  const commentBox = React.createRef();
+
+  useEffect(() => {
+    const scriptEl = document.createElement("script");
+    scriptEl.async = true;
+    scriptEl.src = "https://utteranc.es/client.js";
+    scriptEl.setAttribute("repo", "helloworldless/davidagood.com");
+    scriptEl.setAttribute("issue-term", "pathname");
+    scriptEl.setAttribute("id", "utterances");
+    scriptEl.setAttribute("theme", "github-dark");
+    scriptEl.setAttribute("crossorigin", "anonymous");
+    if (commentBox && commentBox.current) {
+      commentBox.current.appendChild(scriptEl);
+    } else {
+      console.error(`Error adding utterances comments on: ${commentBox}`);
+    }
+  }, [commentBox]);
 
   return (
     <Layout location={location} title={siteMetadata.title}>
@@ -95,11 +106,15 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             marginBottom: rhythm(1),
           }}
         />
-        <Disqus config={disqusConfig} />
+
         <footer>
           <Bio />
         </footer>
       </article>
+
+      <section>
+        <Comments commentBox={commentBox} />
+      </section>
 
       <nav>
         <ul
@@ -132,6 +147,10 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 };
 
 export default BlogPostTemplate;
+
+const Comments = ({ commentBox }) => (
+    <div ref={commentBox} className="comments" />
+);
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
