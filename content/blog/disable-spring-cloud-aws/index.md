@@ -152,3 +152,12 @@ Caused by: org.springframework.beans.factory.BeanCreationException: Error creati
 ```text
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'simpleMessageListenerContainer' defined in class path resource [org/springframework/cloud/aws/messaging/config/annotation/SqsConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.cloud.aws.messaging.listener.SimpleMessageListenerContainer]: Factory method 'simpleMessageListenerContainer' threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'queueMessageHandler' defined in class path resource [org/springframework/cloud/aws/messaging/config/annotation/SqsConfiguration.class]
 ```
+
+```text
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'simpleMessageListenerContainer' defined in class path resource [io/awspring/cloud/autoconfigure/messaging/SqsAutoConfiguration$SqsConfiguration.class]: Invocation of init method failed; nested exception is com.amazonaws.services.sqs.model.AmazonSQSException: The security token included in the request is invalid (Service: AmazonSQS; Status Code: 403; Error Code: InvalidClientTokenId; Request ID: ...; Proxy: null)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786)
+```
+
+```text
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'simpleMessageListenerContainer' defined in class path resource [org/springframework/cloud/aws/messaging/config/annotation/SqsConfiguration.class]: Invocation of init method failed; nested exception is com.amazonaws.services.sqs.model.AmazonSQSException: The security token included in the request is invalid (Service: AmazonSQS; Status Code: 403; Error Code: InvalidClientTokenId; Request ID: ...; Proxy: null)
+```
