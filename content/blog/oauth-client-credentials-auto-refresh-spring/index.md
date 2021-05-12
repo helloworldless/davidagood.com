@@ -56,30 +56,39 @@ and not the reactive docs.
 
 ## How To Use It
 
-After about one month of working with this, I created my own repo with all the lessons learned:
-
-[Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient)
+**Update:** After about one month of working with this, I created my own repo which demonstrates how to do this and incorporates all the lessons learned:
+[Handling OAuth Client Credentials Authorization Transparently with Spring Security](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient)
 
 For quick reference, here are the dependencies you'll need:
 
-- org.springframework.boot:spring-boot-starter-web
-- org.springframework.boot:spring-boot-starter-security
-- org.springframework.boot:spring-boot-starter-oauth2-client
-- org.springframework:spring-webflux
+- `org.springframework.boot:spring-boot-starter-web`
+- `org.springframework.boot:spring-boot-starter-security`
+- `org.springframework.boot:spring-boot-starter-oauth2-client`
+- `org.springframework:spring-webflux`
+
+### Another Example of How To Use This
+
+Although I ended up creating my own repo to demonstrate how this should be used based on my experience, 
+I still think this example is relevant because it's from the Spring team.
+
+The example is in
+[this Spring Authorization Server sample](https://github.com/spring-projects-experimental/spring-authorization-server/tree/master/samples/boot/oauth2-integration/client). 
+The Authorization Server project is still experimental but not the code in the `client` module.
 
 ## Caveats
 
 - This solution is highly configurable, but that comes at the cost of complexity. If you're not experienced with Spring
   Security and OAuth, there are a lot of new abstractions to learn.
 - Adding the Spring OAuth2 Client dependency automatically protects your existing Spring Web endpoints by OAuth, which
-  is not at all what we're after. So just like `OAuth2RestTemplate`
-  this must be disabled, i.e. using a `WebSecurityConfigurerAdapter`
+  is not at all what we're after for this server-to-server request. So Spring Security defaults must be disabled, i.e. using a custom `WebSecurityConfigurerAdapter`. I've written a separate post describing how to do this: 
+  [How To Completely Disable HTTP Security in Spring Security](https://davidagood.com/spring-security-disable-http-security/).
 - This is a much bigger leap if you're not already using WebFlux, and potentially a harder sell for your team. There are
-  a lot of new concepts to learn and there seems to be some churn here as well. One solution I found used a class which
-  has already been deprecated.
+  a lot of new concepts to learn and there seems to be some churn here as well: one solution I found used a class which
+  had already been deprecated.
 - You'll have to use new tools from a testing perspective. For example, `ExchangeFunction` for unit testing. Also, you
-  won't be able to use `MockRestServiceServer`. The Spring team recommends using OkHttp's `MockWebServer` which is what
-  I've used in my [demo repo](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient).
+  won't be able to use `MockRestServiceServer`. The Spring team recommends using 
+  OkHttp's `MockWebServer` ([link](https://github.com/square/okhttp/blob/4ebc5f644c92ad08e41908db2ccaff4819cd0cbe/mockwebserver/README.md)) 
+  which is what I've used in my [demo repo](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient).
 
 ## Dependency on Servlet Environment Causes Unexpected Behavior
 
@@ -134,15 +143,6 @@ See how to use it here:
 
 [Handling OAuth Client Credentials Authorization Transparently with Spring](https://github.com/helloworldless/spring-oauth2-client-credentials-webclient)
 
-## Another Example of How To Use This
-
-_Although I ended up creating my own repo to demonstrate how this should be used based on several weeks of experience
-using it, I still think this example is relevant because it's from the Spring team._
-
-There's another example of using this in
-[this Spring Authorization Server sample](https://github.com/spring-projects-experimental/spring-authorization-server/tree/master/samples/boot/oauth2-integration/client)
-. The Authorization Server project is still experimental but not the code in the `client` module.
-
 ## References
 
 - Spring Security
@@ -151,7 +151,7 @@ There's another example of using this in
 - Spring Security
   Docs: [WebClient for Servlet Environments](https://docs.spring.io/spring-security/site/docs/5.4.2/reference/html5/#servlet-webclient)
 
-# Solution #1: Using OAuth2RestTemplate
+# Solution #2: Using OAuth2RestTemplate
 
 ## How To Use It
 
@@ -164,7 +164,8 @@ Here's a nice blog post which shows how to use it:
 - `OAuth2RestTemplate` is in no way, shape, or form customizable. To be honest, it seems to have been slapped together
   in an hour or two just to check a box or close out an issue.
 - Adding the Spring Security dependency automatically enables basic password authentication, you have to disable it if
-  you don't need it, i.e. using a `WebSecurityConfigurerAdapter`
+  you don't need it, i.e. using a `WebSecurityConfigurerAdapter`. I've written a separate post describing how to do this: 
+  [How To Completely Disable HTTP Security in Spring Security](https://davidagood.com/spring-security-disable-http-security/).
 - Doesn't pick up Jackson customizations from the context, so they need to be applied again which may not be
   straightforward. For example, in order to apply a common customization like Jackson's `WRITE_DATES_AS_TIMESTAMPS` I
   had to fall back to explicitly annotating fields with `@JsonFormat`. In contrast, anywhere I'm using `RestTemplate`,
