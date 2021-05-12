@@ -50,9 +50,9 @@ strategy #3 from above.
 
 # Solution #1: Using WebClient
 
-This is specifically in the context of using Spring Web and just adding Spring WebFlux for the purpose of using the
-WebClient as described below. Take care when reading guides and documentation that you're reading servlet-specific docs
-and not the reactive docs.
+**Note:** This solution assumes the use of Servlet-based Spring, **not** Reactive Spring. The Spring WebFlux dependency is added   
+in order to use an OAuth2 client-configured `WebClient` in blocking mode. That being said, you may be able to adapt this solution 
+for Reactive Spring, but I have not attempted to do so myself.
 
 ## How To Use It
 
