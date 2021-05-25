@@ -7,8 +7,8 @@ video and docs"
 ---
 
 Based on this video: [An Introduction to developing in Chialisp](https://www.youtube.com/watch?v=dEFLJSU87K8). 
-Includes a few updates/corrections based on things that have changed.
 
+I've included a few updates/corrections based on things that have changed. 
 For example, the quoting syntax was changed from this 
 `brun '(+ (q  2) (q 3))'` to this `brun '(+ (q . 2) (q . 3))'`
 
@@ -46,11 +46,13 @@ brun '(sha256 (q . "asdf"))'
 brun '(x)'
 FAIL: clvm raise ()
 
-brun '1' '(1 2 3 "a")'
-(q 2 3 97)
+# `1` references the input argument list
+brun '1' '(200 300 400 "hey")'
+(200 300 400 "hey")
 
-brun '2' '(1 2 3 "a")'
-1
+# `2` references the first element in input argument list
+brun '2' '(200 300 400 "hey")'
+200
 
 brun '(f 1)' '(1 2 3 "a")'
 1
@@ -109,7 +111,40 @@ brun "$(run demo.clvm)" '("helloops" 0xcafef00d 200)'
 FAIL: clvm raise ("wrong password")
 ```
 
-## Tricks
+## Referencing Input Arguments
+
+Found the following explanation in the `clvm_tools` repo 
+[here](https://github.com/Chia-Network/clvm_tools/blob/4ef69a22d65237353fd2ba29447d6bd095885663/clvm_tools/NodePath.py)...
+
+```text
+# clvm_tools/NodePath.py
+We treat an s-expression as a binary tree, where leaf nodes are atoms and pairs
+are nodes with two children. We then number the paths as follows:
+              1
+             / \
+            /   \
+           /     \
+          /       \
+         /         \
+        /           \
+       2             3
+      / \           / \
+     /   \         /   \
+    4      6      5     7
+   / \    / \    / \   / \
+  8   12 10  14 9  13 11  15
+etc.
+You're probably thinking "the first two rows make sense, but why do the numbers
+do that weird thing after?" The reason has to do with making the implementation simple.
+We want a simple loop which starts with the root node, then processes bits starting with
+the least significant, moving either left or right (first or rest). So the LEAST significant
+bit controls the first branch, then the next-least the second, and so on. That leads to this
+ugly-numbered tree.
+```
+
+## Questions / TODO
+
+### 5
 
 In the official docs, [Password Locked Coin](https://chialisp.com/docs/doc2#example-1-password-locked-coin), 
 it mentions the following:
@@ -127,3 +162,21 @@ Here's an example of using `5`:
 brun '5' '(101 102 103 104 105)'
 102
 ```
+
+### qq and unquote
+
+`chia/wallet/puzzles/p2_conditions.clvm`
+
+```lisp
+(mod (conditions)
+    (qq (q . (unquote conditions)))
+)
+```
+
+### l
+
+### Currying Examples
+
+### defun vs. defun-inline
+
+### logand
