@@ -1,12 +1,13 @@
 ---
 title: "Chialisp Basics" 
 date: "2021-05-24T04:43:45.796Z"
-description: "Basic commands, operators, and example Chialisp program based on official YouTube 
-video and docs"
+description: "Chialisp is the native smart contract language of the Chia blockchain and 
+cryptocurrency (XCH). This shows basic Chialisp commands, operators, and an example program. 
+Based on official Chia YouTube video and docs.
 
 ---
 
-Based on this video: [An Introduction to developing in Chialisp](https://www.youtube.com/watch?v=dEFLJSU87K8). 
+This post is based on this official video: [An Introduction to developing in Chialisp](https://www.youtube.com/watch?v=dEFLJSU87K8). 
 
 I've included a few updates/corrections based on things that have changed. 
 For example, the quoting syntax was changed from this 
@@ -113,34 +114,10 @@ FAIL: clvm raise ("wrong password")
 
 ## Referencing Input Arguments
 
-Found the following explanation in the `clvm_tools` repo 
-[here](https://github.com/Chia-Network/clvm_tools/blob/4ef69a22d65237353fd2ba29447d6bd095885663/clvm_tools/NodePath.py)...
+Input arguments, or `treeargs` in Chialisp parlance.
 
-```text
-# clvm_tools/NodePath.py
-We treat an s-expression as a binary tree, where leaf nodes are atoms and pairs
-are nodes with two children. We then number the paths as follows:
-              1
-             / \
-            /   \
-           /     \
-          /       \
-         /         \
-        /           \
-       2             3
-      / \           / \
-     /   \         /   \
-    4      6      5     7
-   / \    / \    / \   / \
-  8   12 10  14 9  13 11  15
-etc.
-You're probably thinking "the first two rows make sense, but why do the numbers
-do that weird thing after?" The reason has to do with making the implementation simple.
-We want a simple loop which starts with the root node, then processes bits starting with
-the least significant, moving either left or right (first or rest). So the LEAST significant
-bit controls the first branch, then the next-least the second, and so on. That leads to this
-ugly-numbered tree.
-```
+How to reference `treeargs` is explained really well here: 
+[Treeargs : Program Arguments, and Argument Lookup](https://chialisp.com/docs/ref/clvm#treeargs--program-arguments-and-argument-lookup)
 
 ## Questions / TODO
 
@@ -175,8 +152,31 @@ brun '5' '(101 102 103 104 105)'
 
 ### l
 
+Returns true if the argument is a cons box (or list). 
+Returns false if the argument is an atom.
+
+```shell
+run '(l (f @))' '("atom" ("a" "list"))'
+()
+
+run '(l (r @))' '("atom" ("a" "list"))'
+1
+
+brun '(l 2)' '("atom" ("a" "list"))'
+()
+
+brun '(l 3)' '("atom" ("a" "list"))'
+1
+```
+
 ### Currying Examples
 
 ### defun vs. defun-inline
 
 ### logand
+
+## References
+
+- [CLVM Reference Manual](https://chialisp.com/docs/ref/clvm) -
+  Official CLVM documentation, in depth explanations of the inner workings of
+  Chialsip and the CLVM
