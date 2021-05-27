@@ -1,13 +1,13 @@
 ---
 title: "Chialisp Basics" 
 date: "2021-05-24T04:43:45.796Z"
-description: "Chialisp is the native smart contract language of the Chia blockchain and 
-cryptocurrency (XCH). This shows basic Chialisp commands, operators, and an example program. 
-Based on official Chia YouTube video and docs."
 
 ---
 
-This post is based on this official video: [An Introduction to developing in Chialisp](https://www.youtube.com/watch?v=dEFLJSU87K8). 
+Chialisp is the native smart contract language of the Chia blockchain and 
+cryptocurrency (XCH). This post demonstrates basic Chialisp commands, 
+operators, and an example program. It is based on this official video: 
+[An Introduction to developing in Chialisp](https://www.youtube.com/watch?v=dEFLJSU87K8). 
 
 I've included a few updates/corrections based on things that have changed. 
 For example, the quoting syntax was changed from this 
