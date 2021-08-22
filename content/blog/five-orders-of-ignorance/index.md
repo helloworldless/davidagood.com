@@ -1,4 +1,6 @@
+---
 title: The Five Orders of Ignorance
+date: "2021-08-22T14:49:14.347Z"
 
 ---
 
