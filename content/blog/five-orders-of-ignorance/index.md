@@ -35,6 +35,5 @@ methodology.
 
 This also put me in mind of this line from Cracking The Coding Interviews:
 
-> TODO (paraphrasing for now): Clarify the question and requirements with 
-interviewer. After all, writing code before understanding the problem wastes 
-company time and money.
+> a developer who just codes something without understanding what she is 
+> expected to create wastes the company's time and money
