@@ -24,10 +24,16 @@ ignorant.
 *I can only think of a few exceptions:
 
 1. Some early stage startup where shipping fast is an existential matter
-1. Writing throwaway code
-1. All the stakeholders coming to a decision to kick the can down the road 
+2. Writing throwaway code
+3. All the stakeholders coming to a decision to kick the can down the road 
   and make this someone else's problem for another day. This is a slippery slope. For me, the engineering team should make a strong argument against 
   in such a discussion.
+
+By the way, writing clean, maintainable code does **not** come naturally. It takes practice and 
+discipline. So I'll throw in a forth exception which is not knowing how to write clean code, or 
+not being able to do so efficiently, which will likely lead to cutting corners. But if this is 
+the case, you should definitely learn how or keep at if you're still learning. It takes time, but 
+it absolutely pays off.
 
 I will concede that there is a tradeoff between quality and timeliness. Perfect is the enemy of 
 good. In the real world, there are deadlines. The project management triangle is real. There is 
