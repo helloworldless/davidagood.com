@@ -18,14 +18,12 @@ practices.
 So for a time, I was questioning: does clean code really matter? Is it a waste of time? 
 Merely a hindrance to moving fast and meeting deadlines?
 
-Well here's what I say: **clean code is the only way***. Engineers who do not believe this are simply 
-ignorant.
-
-*I can only think of a few exceptions:
+Well here's what I say: **clean code is the only way**. Engineers who do not believe this are 
+simply ignorant. I can only think of a few exceptions:
 
 1. Some early stage startup where shipping fast is an existential matter
-2. Writing throwaway code
-3. All the stakeholders coming to a decision to kick the can down the road 
+1. Writing throwaway code
+1. All the stakeholders coming to a decision to kick the can down the road 
   and make this someone else's problem for another day. This is a slippery slope. For me, the engineering team should make a strong argument against 
   in such a discussion.
 
