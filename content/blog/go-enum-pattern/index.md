@@ -20,11 +20,11 @@ type State string
 const (
     Init State = "Init"
     InProgress State = "InProgress"
-    Success State = "Success"
-    Failure State = "Failure"
+    Succeeded State = "Succeeded"
+    Failed State = "Failed"
 )
 
-func (s *State) IsValid() book {
+func (s *State) IsValid() bool {
     switch s {
     case Init, InProgress, Success, Failure:
         return true
@@ -38,3 +38,45 @@ There are still downsides like having to repeat the
 name and value in the declaration, having to update `IsValid` 
 if a new value is added to the enum, and of course, having 
 to actually call `IsValid` on any untrusted input.
+
+I also like to throw this in for ease of use:
+
+```go
+package mypackage
+
+var States = struct {
+    Init State
+    InProgress State
+    Succeeded State
+    Failed State
+}{
+    Init: Init
+    InProgress: InProgress
+    Succeeded: Succeeded
+    Failed: Failed
+}
+```
+
+This adds even more repetition, but I find it much more natural 
+to use. The standard library takes a different approach, 
+instead moving the repetition to a prefix, e.g. 
+`HttpStatusOk`, `HttpStatusBadRequest`, etc. This approach (using a 
+common prefix) actually namespaces the values, so it would prevent collisions. 
+My approach does not.
+
+Use it like this:
+
+```go
+func doSomething(o ObjectWithState) error {
+    if !o.state.IsValid() {
+        return fmt.Errof("invalid state value: %s", o.state)
+    }
+    if o.state == mypackage.States.InProgress {
+        // whatever
+    }
+}
+```
+
+As I'm writing this, I'm wondering if this 
+helper struct is even worth it. I'm sure my approach 
+evolves over time. 
