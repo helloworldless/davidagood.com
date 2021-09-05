@@ -57,8 +57,14 @@ var States = struct {
 }
 ```
 
-This adds even more repetition, but I find it much more natural 
-to use. The standard library takes a different approach, 
+This adds even more repetition, but I find it much more familiar coming from a 
+Java background. When I'm coding, I might not know the enum value I want to use 
+off the top of my head, so I just type `mypackage.States.` and let my IDE show 
+me all the possible values. Presumably my IDE should infer the type and show me 
+all the possible values without having to use this "trick". I have spent enough 
+time writing go (with IntelliJ) to know if it does.
+
+The standard library takes a different approach, 
 instead moving the repetition to a prefix, e.g. 
 `HttpStatusOk`, `HttpStatusBadRequest`, etc. This approach (using a 
 common prefix) actually namespaces the values, so it would prevent collisions. 
@@ -79,4 +85,4 @@ func doSomething(o ObjectWithState) error {
 
 As I'm writing this, I'm wondering if this 
 helper struct is even worth it. I'm sure my approach 
-evolves over time. 
+will evolve over time...
