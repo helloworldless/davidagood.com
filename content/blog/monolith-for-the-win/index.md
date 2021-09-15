@@ -1,6 +1,6 @@
 ---
 title: "Monolith For The Win"
-date: "2020-09-02T02:11:00.000Z"
+date: "2021-09-02T02:11:00.000Z"
 
 ---
 
