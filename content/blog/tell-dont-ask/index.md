@@ -1,8 +1,6 @@
-
 ---
 title: "Encapsulation and Tell, Don't Ask" 
 date: "2021-11-14T19:27:24.193Z"
-
 ---
 
 Resources on the clean coding principles of **Encapsulation** and **Tell, Don't Ask**.
