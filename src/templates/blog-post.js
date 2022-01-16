@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { graphql, Link } from "gatsby";
-import { MdLaunch } from "react-icons/md";
-import Image from "gatsby-image";
+import React, { useEffect } from 'react';
+import { graphql, Link } from 'gatsby';
+import { MdLaunch } from 'react-icons/md';
+import Image from 'gatsby-image';
 
-import Bio from "../components/bio";
-import Layout from "../components/layout";
-import SEO from "../components/seo";
-import { rhythm, scale } from "../utils/typography";
+import Bio from '../components/bio';
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import { rhythm, scale } from '../utils/typography';
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark;
@@ -15,21 +15,27 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 
   const commentBox = React.createRef();
 
+  // add listener to detect changes
+  const darkMode =
+    typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   useEffect(() => {
-    const scriptEl = document.createElement("script");
+    const scriptEl = document.createElement('script');
     scriptEl.async = true;
-    scriptEl.src = "https://utteranc.es/client.js";
-    scriptEl.setAttribute("repo", "helloworldless/davidagood.com");
-    scriptEl.setAttribute("issue-term", "pathname");
-    scriptEl.setAttribute("id", "utterances");
-    scriptEl.setAttribute("theme", "github-dark");
-    scriptEl.setAttribute("crossorigin", "anonymous");
+    scriptEl.src = 'https://utteranc.es/client.js';
+    scriptEl.setAttribute('repo', 'helloworldless/davidagood.com');
+    scriptEl.setAttribute('issue-term', 'pathname');
+    scriptEl.setAttribute('id', 'utterances');
+    scriptEl.setAttribute('theme', darkMode ? 'github-dark' : 'github-light');
+    scriptEl.setAttribute('crossorigin', 'anonymous');
     if (commentBox && commentBox.current) {
       commentBox.current.appendChild(scriptEl);
     } else {
       console.error(`Error adding utterances comments on: ${commentBox}`);
     }
-  }, [commentBox]);
+  }, [commentBox, darkMode]);
 
   return (
     <Layout location={location} title={siteMetadata.title}>
@@ -84,9 +90,9 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
                   />
                   <figcaption
                     style={{
-                      textAlign: "center",
-                      fontSize: "14px",
-                      paddingTop: "8px",
+                      textAlign: 'center',
+                      fontSize: '14px',
+                      paddingTop: '8px',
                     }}
                   >
                     <cite
@@ -149,40 +155,40 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 export default BlogPostTemplate;
 
 const Comments = ({ commentBox }) => (
-    <div ref={commentBox} className="comments" />
+  <div ref={commentBox} className="comments" />
 );
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
-    site {
-      siteMetadata {
-        title
-        siteUrl
-      }
-    }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-        description
-        isExternal
-        externalUrl
-        image {
-          childImageSharp {
-            fixed(height: 600, width: 1200) {
-              src
+    query BlogPostBySlug($slug: String!) {
+        site {
+            siteMetadata {
+                title
+                siteUrl
             }
-            fluid(maxWidth: 700, maxHeight: 500) {
-              ...GatsbyImageSharpFluid
-            }
-          }
         }
-        imageCaption
-        imageAlt
-      }
+        markdownRemark(fields: { slug: { eq: $slug } }) {
+            id
+            excerpt(pruneLength: 160)
+            html
+            frontmatter {
+                title
+                date(formatString: "MMMM DD, YYYY")
+                description
+                isExternal
+                externalUrl
+                image {
+                    childImageSharp {
+                        fixed(height: 600, width: 1200) {
+                            src
+                        }
+                        fluid(maxWidth: 700, maxHeight: 500) {
+                            ...GatsbyImageSharpFluid
+                        }
+                    }
+                }
+                imageCaption
+                imageAlt
+            }
+        }
     }
-  }
 `;

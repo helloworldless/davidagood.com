@@ -1,20 +1,20 @@
-import Typography from "typography";
-import Wordpress2016 from "typography-theme-wordpress-2016";
+import Typography from 'typography';
+import Wordpress2016 from 'typography-theme-wordpress-2016';
 
 Wordpress2016.overrideThemeStyles = () => {
   return {
-    "a.gatsby-resp-image-link": {
+    'a.gatsby-resp-image-link': {
       boxShadow: `none`,
     },
     body: {
-      color: 'rgba(255, 255, 255, 0.9)'
+      color: 'var(--text-color)',
     },
     hr: {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)'
+      backgroundColor: 'var(--hr-color)',
     },
     blockquote: {
-      color: 'rgba(255, 255, 255, 0.7)'
-    }
+      color: 'var(--blockquote-color)',
+    },
   };
 };
 
