@@ -8,9 +8,7 @@ All the common wisdom says to start with a monolith and
 evolve into microservices once you know you need it. So 
 why does everyone ignore this advice and reach for 
 microservices, even when building a system from scratch? 
-Is microservices the engineer's hammer?
-
-// TODO - add quotes/sources
+Are microservices the modern software engineer's hammer?
 
 A few things come to mind:
 
