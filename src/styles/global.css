@@ -1,23 +1,20 @@
-/*https://blog.jim-nielsen.com/2019/conditional-syntax-highlighting-in-dark-mode-with-css-imports/*/
-@import "~prismjs/themes/prism-solarizedlight.css" screen;
-@import "~prismjs/themes/prism-tomorrow.css" screen and (prefers-color-scheme: dark);
-@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
-
 :root {
     --text-color: #1f1f1f;
     --background: rgba(255, 255, 255, 0.9);
-    --gatsby-highlight-background-color: #fdf6e3;
+    --code-bg-color: #fdf6e3;
     --hr-color: rgba(0, 0, 0, 0.1);
     --blockquote-color: rgba(0, 0, 0, 0.7);
+    --link-color: #007acc;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --text-color: rgba(255, 255, 255, 0.9);
-        --background: rgba(0, 0, 0, 0.9);
-        --gatsby-highlight-background-color: rgb(45, 45, 45);
+        --background: #121212;
+        --code-bg-color: rgb(45, 45, 45);
         --hr-color: rgba(255, 255, 255, 0.1);
         --blockquote-color: rgba(255, 255, 255, 0.7);
+        --link-color: #4da3ff;
     }
 }
 
@@ -26,26 +23,87 @@ html {
     background: var(--background);
 }
 
-td, th {
-    border-bottom: 1px solid var(--text-color);
+body {
+    font-family: 'Merriweather', serif;
+    line-height: 1.6;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 2.625rem 1.3125rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 2.625rem;
+    margin-bottom: 1.3125rem;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 blockquote {
-    color: var(--text-color);
-    border-left-color: var(--text-color);
+    color: var(--blockquote-color);
+    border-left: 0.32813rem solid var(--text-color);
+    margin-left: -1.3125rem;
+    padding-left: 1rem;
+    font-style: italic;
 }
 
-/* https://www.gatsbyjs.com/plugins/gatsby-remark-prismjs/?=gatsby-remark-prismjs#optional-add-line-numbering */
-.gatsby-highlight {
-    background-color: var(--gatsby-highlight-background-color); /* Match codeblock color */
-    border-radius: 0.3em;
-    margin: 0.5em 0;
-    padding: 1em;
+img {
+    max-width: 100%;
+}
+
+pre[class*="language-"] {
+    padding: 1rem;
+    margin: 1.5rem 0;
     overflow: auto;
+    border-radius: 0.3rem;
 }
 
-.gatsby-highlight pre[class*="language-"].line-numbers {
-    padding: 0;
-    padding-left: 2.8em;
-    overflow: initial;
+.site-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 2.625rem;
+    margin-top: 0;
+    text-align: center;
+}
+
+.site-title a {
+    color: inherit;
+}
+
+.post-title {
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.post-date {
+    display: block;
+    margin-bottom: 1.75rem;
+    font-size: 0.8rem;
+}
+
+.bio {
+    display: flex;
+    margin-bottom: 2.625rem;
+}
+
+.bio img {
+    margin-right: 0.875rem;
+    margin-bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+footer {
+    margin-top: 2.625rem;
+    border-top: 1px solid var(--hr-color);
+    padding-top: 1rem;
+    font-size: 0.9rem;
 }

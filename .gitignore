@@ -60,6 +60,9 @@ typings/
 .cache/
 public
 
+# eleventy files
+_site/
+
 # Mac files
 .DS_Store
 
