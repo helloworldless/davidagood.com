@@ -61,7 +61,7 @@ typings/
 public
 
 # eleventy files
-_site/
+public/
 
 # Mac files
 .DS_Store

@@ -13,6 +13,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("content/blog/**/*.gif");
   eleventyConfig.addPassthroughCopy("content/assets");
   eleventyConfig.addPassthroughCopy("src/styles/global.css");
+  eleventyConfig.addPassthroughCopy({ "static": "/" });
 
   eleventyConfig.addFilter("readableDate", (dateObj) => {
     const d = typeof dateObj === "string" ? DateTime.fromISO(dateObj) : DateTime.fromJSDate(dateObj);
@@ -35,7 +36,7 @@ module.exports = function (eleventyConfig) {
     return array.slice(0, n);
   });
 
-  eleventyConfig.addCollection("posts", function(collectionApi) {
+  eleventyConfig.addCollection("posts", (collectionApi) => {
     return collectionApi.getFilteredByGlob("content/blog/**/*.md").sort((a, b) => b.date - a.date);
   });
 
@@ -55,7 +56,7 @@ module.exports = function (eleventyConfig) {
       input: ".",
       includes: "_includes",
       data: "_data",
-      output: "_site"
+      output: "public"
     },
     pathPrefix: "/",
     markdownTemplateEngine: "njk",
