@@ -1,0 +1,45 @@
+---
+layout: layouts/base.njk
+---
+<article>
+  <header>
+    <h1 class="post-title">{{ title }}</h1>
+    <small class="post-date">{{ date | readableDate }}</small>
+  </header>
+
+  {% if isExternal %}
+    <section>
+      <p><a href="{{ externalUrl }}">{{ title }} ↗</a></p>
+      <p>{{ description }}</p>
+    </section>
+  {% else %}
+    <section>
+      {{ content | safe }}
+    </section>
+  {% endif %}
+
+  <hr>
+
+  <div id="comment-box"></div>
+  <script>
+    const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const scriptEl = document.createElement('script');
+    scriptEl.async = true;
+    scriptEl.src = 'https://utteranc.es/client.js';
+    scriptEl.setAttribute('repo', 'helloworldless/davidagood.com');
+    scriptEl.setAttribute('issue-term', 'pathname');
+    scriptEl.setAttribute('id', 'utterances');
+    scriptEl.setAttribute('theme', darkMode ? 'github-dark' : 'github-light');
+    scriptEl.setAttribute('crossorigin', 'anonymous');
+    document.getElementById('comment-box').appendChild(scriptEl);
+  </script>
+
+  <nav>
+    <ul>
+      {%- set nextPost = collections.posts | getNextCollectionItem(page) %}
+      {%- set prevPost = collections.posts | getPreviousCollectionItem(page) %}
+      {%- if nextPost %}<li>Next: <a href="{{ nextPost.url | url }}">{{ nextPost.data.title }}</a></li>{% endif %}
+      {%- if prevPost %}<li>Previous: <a href="{{ prevPost.url | url }}">{{ prevPost.data.title }}</a></li>{% endif %}
+    </ul>
+  </nav>
+</article>
